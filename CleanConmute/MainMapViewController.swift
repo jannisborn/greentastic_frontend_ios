@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 
+let base_url = "http://localhost:5000"
+
 class MainMapViewController: UIViewController, MKMapViewDelegate {
     
 //    struct SearchBar{
@@ -40,11 +42,9 @@ class MainMapViewController: UIViewController, MKMapViewDelegate {
     }
     
     
-    var routes : [Route] = [
-        Route("")
-    ]
+    var routes = [Route]()
     
-    var locations = ["Current", "Bern", "Zurich"]
+    var locations = [String]()
     
     var searchArea : ToFromSearch?
     
@@ -107,7 +107,7 @@ class MainMapViewController: UIViewController, MKMapViewDelegate {
         if tableView.superview != mapView{
             mapView.addSubview(tableView)
         }
-        
+        tableView.reloadData()
     }
     
     
@@ -115,25 +115,77 @@ class MainMapViewController: UIViewController, MKMapViewDelegate {
         
     }
 
+    func callAutoCompleteAPI(_ searchString : String) {
+        let stringRequest = base_url + "/query_autocomplete?user_location=\(zurichCoords)&search_string=\(searchString)"
+        let url = URL(string: stringRequest)!
+        
+        let task = URLSession.shared.dataTask(with: url) {[weak self](data, response, error) in
+            guard let data = data else { return }
+            
+            self?.locations.removeAll()
+            if self?.inScopeTextField == self?.searchArea?.from {
+                self?.locations.append("Current Location")
+            }
+            let results = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+            if let results_ = results as? Array<String> {
+                for result in results_{
+                    self?.locations.append(result)
+                }
+            }
+            if let loc = self?.locationResult{
+                DispatchQueue.main.async {
+                    self?.toogleTableResults(loc)
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func callRoutesAPI(source : String, destination : String){
+        
+        var source_ : String = source
+        
+        // Sanitize if current location
+        if source == "Current Location" {
+            source_ = zurichCoords
+        }
+        
+        if let request = "/query_directions?source=\(source_)&destination=\(destination)&weights=1,1,1,1".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed){
+            let urlEncodedStringRequest = base_url + request
+            print(urlEncodedStringRequest)
+            if let url = URL(string: urlEncodedStringRequest){
+                let task = URLSession.shared.dataTask(with: url) {[weak self](data, response, error) in
+                    guard let data = data else { return }
+                    
+                    self?.routes.removeAll()
+                    let results = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+                    
+                    if let results_ = results as? Dictionary<String, Any> {
+                        for (key, dict) in results_{
+                            if let route_instance = Route(dict, type_string: key){
+                                self?.routes.append(route_instance)
+                            }
+                        }
+                    }
+                    
+                    if let rout = self?.routesResult{
+                        DispatchQueue.main.async {
+                            self?.toogleTableResults(rout)
+                        }
+                    }
+                }
+                task.resume()
+            }
+        }
+    }
 }
+
+let zurichCoords = "47.3769,8.5417"
 
 extension MainMapViewController : UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         inScopeTextField = textField
-        
-        if textField == searchArea?.to {
-            // Do places call, on callback : toogleTableResults(locationResult)
-            print("HERE")
-            toogleTableResults(locationResult)
-            
-        }
-        
-        if textField == searchArea?.from {
-            // Do places call, on callback : toogleTableResults(locationResult)
-            print("THERE")
-            toogleTableResults(locationResult)
-        }
-        
+        callAutoCompleteAPI(textField.text ?? "")
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -164,7 +216,7 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
         }else if tableView == routesResult {
             if let xib = Bundle.main.loadNibNamed("RouteCell", owner: self, options: nil){
                 if let cell  = xib.first as? RouteTableViewCell{
-                    cell.route = routes.first
+                    cell.route = routes[indexPath.row]
                     return cell
                 }
             }
@@ -195,7 +247,7 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
                 {
                 // Execute final call
                 print("Call the locations API with from \(from) and to \(to)")
-                toogleTableResults(routesResult)
+                callRoutesAPI(source: from, destination: to)
             }else{// Switch TF otherwise
                 if searchArea?.from?.isFirstResponder ?? false {
                     searchArea?.to?.becomeFirstResponder()

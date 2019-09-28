@@ -40,19 +40,19 @@ class RouteTableViewCell: UITableViewCell {
             // Route type
             if let route_ = route {
                 switch route_.type {
-                case .biking:
+                case .bicycling:
                     routeTypeIcon.image = UIImage.init(named: "bicycle")?.withRenderingMode(.alwaysOriginal)
                 case .walking:
                     routeTypeIcon.image = UIImage.init(named: "walking")?.withRenderingMode(.alwaysOriginal)
-                case .car:
+                case .driving:
                     routeTypeIcon.image = UIImage.init(named: "car")?.withRenderingMode(.alwaysOriginal)
-                case .eScooter:
+                case .escooter:
                     routeTypeIcon.image = UIImage.init(named: "ebike")?.withRenderingMode(.alwaysOriginal)
-                case .train:
+                case .transit:
                     routeTypeIcon.image = UIImage.init(named: "tram")?.withRenderingMode(.alwaysOriginal)
-                case .motorcycle:
+                case .ecar:
                     routeTypeIcon.image = UIImage.init(named: "vespa")?.withRenderingMode(.alwaysOriginal)
-                case .plane:
+                case .taxi:
                     routeTypeIcon.image = UIImage.init(named: "plane")?.withRenderingMode(.alwaysOriginal)
                     
                 default:
