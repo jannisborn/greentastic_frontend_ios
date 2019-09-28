@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window?.tintColor = UIColor.init(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)
         // Override point for customization after application launch.
+        
         return true
     }
 

@@ -76,7 +76,6 @@ struct Route {
         if minutes > 0 { finalString.append("\(minutes)'") }
         if remainder > 0 { finalString.append("\(remainder)''") }
         
-        print(finalString)
         return finalString
     }
     

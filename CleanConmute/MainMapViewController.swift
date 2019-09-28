@@ -9,7 +9,8 @@
 import UIKit
 import MapKit
 
-let base_url = "http://localhost:5000"
+//let base_url = "http://localhost:5000"
+let base_url = "https://clean-commuter.appspot.com"
 
 class MainMapViewController: UIViewController {
     
@@ -23,7 +24,8 @@ class MainMapViewController: UIViewController {
     
     @IBOutlet weak var mapView : MKMapView!
     var polyline : MKPolyline?
-    var polylineView : MKPolylineView?
+    var polylines = [(MKPolyline, (Double, Double, Double))]()
+    //var polylineView : MKPolylineView?
     
     @IBOutlet weak var sizer : UIStackView!
     weak var inScopeTextField : UITextField?
@@ -154,7 +156,14 @@ class MainMapViewController: UIViewController {
             source_ = zurichCoords
         }
         
-        if let request = "/query_directions?source=\(source_)&destination=\(destination)&weights=1,1,1,1,1".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed){
+        let defaults = UserDefaults.standard
+        let cost = defaults.double(forKey: "cost_weight")
+        let cals = defaults.double(forKey: "calories_weight")
+        let emis = defaults.double(forKey: "emission_weight")
+        let toxc = defaults.double(forKey: "toxicity_weight")
+        let time = defaults.double(forKey: "time_weight")
+        
+        if let request = "/query_directions?source=\(source_)&destination=\(destination)&weights=\(cost),\(cals),\(emis),\(toxc),\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed){
             let urlEncodedStringRequest = base_url + request
             print(urlEncodedStringRequest)
             if let url = URL(string: urlEncodedStringRequest){
@@ -268,14 +277,15 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
 
         } else if tableView == routesResult {
             // PAINT EVERYTHING
-            let route = routes[indexPath.row]
-            //initialize your map view and add it to your view hierarchy - **set its delegate to self***
-            var coordinateArray = [CLLocationCoordinate2D]()
             
-            for coord in route.route{
-                coordinateArray.append(CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude))
+            for route in routes {
+                let coordinateArray = route.route.map{CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}
+                let polylin = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+                polylines.append((polylin, route.color))
+                mapView.addOverlay(polylin)
             }
-            
+            let route = routes[indexPath.row]
+            let coordinateArray = route.route.map{CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}
             polyline = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
             if let pol = polyline {
                 mapView.setVisibleMapRect(pol.boundingMapRect, animated: true)
@@ -303,11 +313,17 @@ extension MainMapViewController : MKMapViewDelegate {
             
         } else if overlay is MKPolyline {
             let renderer = MKPolylineRenderer(overlay: overlay)
-            renderer.strokeColor = UIColor.orange
-            renderer.lineWidth = 3
+            renderer.strokeColor = UIColor.init(white: 0.7, alpha: 0.5)
+            for (poly, color) in polylines {
+                if poly === overlay {
+                    renderer.strokeColor = UIColor.init(red: CGFloat(color.0), green: CGFloat(color.1), blue: CGFloat(color.2), alpha: 1.0)
+                }
+            }
+            if overlay === polyline { renderer.lineWidth = 20 }
+            else { renderer.lineWidth = 7 }
+            
             return renderer
         }
-        
         return MKOverlayRenderer()
     }
 }
