@@ -42,14 +42,20 @@ struct Route {
     
     // Info on route
     let price : Double
+    let priceColor : (Double, Double, Double)
     let carbonFootPrint : Double
+    let carbonFootPrintColor : (Double, Double, Double)
     let toxicityFootPrint : Double
+    let toxicityFootPrintColor : (Double, Double, Double)
     let secondsRequired : UInt
+    let secondsRequiredColor : (Double, Double, Double)
     let caloriesBurnt : Int
+    let caloriesBurntColor : (Double, Double, Double)
     let distance : Double
+    let distanceColor : (Double, Double, Double)
     
     //Color
-    let color : (Int, Int, Int)
+    let color : (Double, Double, Double)
     
     // Poliline
     let route : [[(GPSLocation, GPSLocation)]]
@@ -70,9 +76,9 @@ struct Route {
         
         if let dict = json as? Dictionary<String, Any>{
             
-            print(type_string)
-            print("-----")
-            print(json)
+//            print(type_string)
+//            print("-----")
+//            print(json)
             
             fromAsText = "Zurich, HB"
             toAsText = "IBM ZRL"
@@ -83,15 +89,53 @@ struct Route {
             type = RouteType(rawValue: type_string) ?? .walking
             
             // Info on route
-            price = 20.0
-            carbonFootPrint = 0.1
+            // Price
+            price = Double((dict["price"] as? String) ?? "0") ?? 0
+            if let color = dict["price_col"] as? Array<Double> {
+                priceColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
+            }else{
+                priceColor = (0.5, 0.5, 0.5)
+            }
+            
+            // Carbon footprint
+            carbonFootPrint = Double((dict["emission"] as? String) ?? "0") ?? 0
+            if let color = dict["emission_col"] as? Array<Double> {
+                carbonFootPrintColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
+            }else{
+                carbonFootPrintColor = (0.5, 0.5, 0.5)
+            }
+            
+            // Calories burnt
+            caloriesBurnt = Int((dict["calories"] as? String) ?? "0") ?? 0
+            if let color = dict["calories_col"] as? Array<Double> {
+                caloriesBurntColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
+            }else{
+                caloriesBurntColor = (0.5, 0.5, 0.5)
+            }
+            
+            // Duration
+            let mins = UInt((dict["duration"] as? String) ?? "0") ?? 0
+            secondsRequired = mins * 60
+            if let color = dict["duration_col"] as? Array<Double> {
+                secondsRequiredColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
+            }else{
+                secondsRequiredColor = (0.5, 0.5, 0.5)
+            }
+            
+            //Toxicity
             toxicityFootPrint = 0.3
-            secondsRequired = 1200
-            caloriesBurnt = Int((dict["calories"] as? String) ?? "0") ?? 0
-            caloriesBurnt = Int((dict["calories"] as? String) ?? "0") ?? 0
+            toxicityFootPrintColor = (0.5, 0.5, 0.5)
+    
+            // Distance
+            distance = Double((dict["distance"] as? String) ?? "0") ?? 0
+            distanceColor = (0.5, 0.5, 0.5)
             
             //Color
-            color = (200, 100, 50)
+            if let color_ = dict["total_weighted_score_col"] as? Array<Double> {
+                color = (color_[0], color_[1], color_[2])
+            }else{
+                color = (0.5, 0.5, 0.5)
+            }
             
             // Poliline
             route = []
