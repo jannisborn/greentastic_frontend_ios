@@ -150,7 +150,7 @@ class MainMapViewController: UIViewController, MKMapViewDelegate {
             source_ = zurichCoords
         }
         
-        if let request = "/query_directions?source=\(source_)&destination=\(destination)&weights=1,1,1,1".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed){
+        if let request = "/query_directions?source=\(source_)&destination=\(destination)&weights=1,1,1,1,1".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed){
             let urlEncodedStringRequest = base_url + request
             print(urlEncodedStringRequest)
             if let url = URL(string: urlEncodedStringRequest){

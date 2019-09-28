@@ -58,7 +58,7 @@ struct Route {
     let color : (Double, Double, Double)
     
     // Poliline
-    let route : [[(GPSLocation, GPSLocation)]]
+    let route : [(GPSLocation, GPSLocation)]
     
     // Utility function
     func timeRequired()-> String {
@@ -78,7 +78,7 @@ struct Route {
             
 //            print(type_string)
 //            print("-----")
-//            print(json)
+            print(dict)
             
             fromAsText = "Zurich, HB"
             toAsText = "IBM ZRL"
@@ -123,8 +123,12 @@ struct Route {
             }
             
             //Toxicity
-            toxicityFootPrint = 0.3
-            toxicityFootPrintColor = (0.5, 0.5, 0.5)
+            toxicityFootPrint = Double((dict["toxicity"] as? String) ?? "0") ?? 0
+            if let color = dict["toxicity_col"] as? Array<Double> {
+                toxicityFootPrintColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
+            }else{
+                toxicityFootPrintColor = (0.5, 0.5, 0.5)
+            }
     
             // Distance
             distance = Double((dict["distance"] as? String) ?? "0") ?? 0
@@ -137,7 +141,22 @@ struct Route {
                 color = (0.5, 0.5, 0.5)
             }
             
-            // Poliline
+            // Polyline
+//            var route_container = [(GPSLocation, GPSLocation)]()
+//            if let coords = dict["coordinates"] as? Array<Array<Double>>{
+//                var first : GPSLocation? = nil
+//                for coord in coords{
+//                    // Prime
+//                    if first == nil {
+//                        first = GPSLocation(longitude: coord[0], latitude: coord[1], altitude: 0.0)
+//                    } else{
+//                        let next = GPSLocation(longitude: coord[0], latitude: coord[1], altitude: 0.0)
+//                        route_container.append((first!, next))
+//                        first = next
+//                    }
+//                }
+//            }
+//            route = route_container
             route = []
         }else{
             return nil
