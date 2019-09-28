@@ -62,7 +62,7 @@
 		0D7D554B233EB3F7009A34F4 /* CleanConmute.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanConmute.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D7D554E233EB3F7009A34F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0D7D5550233EB3F7009A34F4 /* MainMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapViewController.swift; sourceTree = "<group>"; };
-		0D7D5552233EB3F7009A34F4 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		0D7D5552233EB3F7009A34F4 /* UserProfile.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		0D7D5555233EB3F7009A34F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0D7D5557233EB3F8009A34F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D7D555A233EB3F8009A34F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -176,6 +176,7 @@
 				TargetAttributes = {
 					0D7D554A233EB3F7009A34F4 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1100;
 					};
 				};
 			};
