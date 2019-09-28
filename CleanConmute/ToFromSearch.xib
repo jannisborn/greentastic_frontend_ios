@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="IF1-iU-fDu" customClass="ToFromSearch" customModule="CleanConmute" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="418" height="125"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="opg-Zc-OCR">
+                    <rect key="frame" x="16" y="16" width="386" height="93"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="PCB-Oi-QPr">
+                            <rect key="frame" x="0.0" y="0.0" width="386" height="42.5"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" translatesAutoresizingMaskIntoConstraints="NO" id="f0H-bw-oqe">
+                                    <rect key="frame" x="0.0" y="9.5" width="24" height="24"/>
+                                    <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="24" id="MJ0-Mp-r1K"/>
+                                        <constraint firstAttribute="height" constant="24" id="veq-pa-148"/>
+                                    </constraints>
+                                </imageView>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Current location" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="DLh-x1-HSG">
+                                    <rect key="frame" x="32" y="6.5" width="354" height="30"/>
+                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XDG-xA-POc">
+                            <rect key="frame" x="0.0" y="50.5" width="386" height="42.5"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marker" translatesAutoresizingMaskIntoConstraints="NO" id="mi3-y3-Hax">
+                                    <rect key="frame" x="0.0" y="9.5" width="24" height="24"/>
+                                    <color key="tintColor" name="unemphasizedSelectedTextBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="24" id="Cow-M3-5uO"/>
+                                        <constraint firstAttribute="width" constant="24" id="g5S-GU-EJk"/>
+                                    </constraints>
+                                </imageView>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XCJ-WH-2Ir">
+                                    <rect key="frame" x="32" y="6.5" width="354" height="30"/>
+                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="5ho-51-asN" firstAttribute="trailing" secondItem="opg-Zc-OCR" secondAttribute="trailing" constant="16" id="79G-RN-rY1"/>
+                <constraint firstItem="opg-Zc-OCR" firstAttribute="leading" secondItem="5ho-51-asN" secondAttribute="leading" constant="16" id="Ebj-96-cy6"/>
+                <constraint firstItem="opg-Zc-OCR" firstAttribute="top" secondItem="5ho-51-asN" secondAttribute="top" constant="16" id="GYa-po-Tu4"/>
+                <constraint firstItem="5ho-51-asN" firstAttribute="bottom" secondItem="opg-Zc-OCR" secondAttribute="bottom" constant="16" id="smW-5x-Ljb"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="5ho-51-asN"/>
+            <connections>
+                <outlet property="from" destination="DLh-x1-HSG" id="zDZ-x5-BmE"/>
+                <outlet property="fromIcon" destination="f0H-bw-oqe" id="q3G-yk-OnW"/>
+                <outlet property="fromPanel" destination="PCB-Oi-QPr" id="V4H-MI-ttt"/>
+                <outlet property="to" destination="XCJ-WH-2Ir" id="ydR-y4-5tb"/>
+                <outlet property="toIcon" destination="mi3-y3-Hax" id="7tP-QR-Mt5"/>
+            </connections>
+            <point key="canvasLocation" x="163.19999999999999" y="-300"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="circle" width="60" height="60"/>
+        <image name="marker" width="60" height="60"/>
+    </resources>
+</document>
