@@ -11,7 +11,7 @@ import MapKit
 
 let base_url = "http://localhost:5000"
 
-class MainMapViewController: UIViewController, MKMapViewDelegate {
+class MainMapViewController: UIViewController {
     
 //    struct SearchBar{
 //        static let originX : CGFloat = 20.0
@@ -21,8 +21,11 @@ class MainMapViewController: UIViewController, MKMapViewDelegate {
 //        }
 //    }
     
-    @IBOutlet weak var sizer : UIStackView!
     @IBOutlet weak var mapView : MKMapView!
+    var polyline : MKPolyline?
+    var polylineView : MKPolylineView?
+    
+    @IBOutlet weak var sizer : UIStackView!
     weak var inScopeTextField : UITextField?
     var originTrip : String?{
         didSet{
@@ -117,7 +120,8 @@ class MainMapViewController: UIViewController, MKMapViewDelegate {
 
     func callAutoCompleteAPI(_ searchString : String) {
         let stringRequest = base_url + "/query_autocomplete?user_location=\(zurichCoords)&search_string=\(searchString)"
-        let url = URL(string: stringRequest)!
+        
+        let url = URL(string: stringRequest.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
         
         let task = URLSession.shared.dataTask(with: url) {[weak self](data, response, error) in
             guard let data = data else { return }
@@ -161,13 +165,19 @@ class MainMapViewController: UIViewController, MKMapViewDelegate {
                     let results = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
                     
                     if let results_ = results as? Dictionary<String, Any> {
+                        
                         for (key, dict) in results_{
                             if let route_instance = Route(dict, type_string: key){
                                 self?.routes.append(route_instance)
                             }
+                            // Sort by total score
+                            if let rts = self?.routes {
+                                self?.routes = rts.sorted{
+                                    return $0.totalScore > $1.totalScore
+                                }
+                            }
                         }
                     }
-                    
                     if let rout = self?.routesResult{
                         DispatchQueue.main.async {
                             self?.toogleTableResults(rout)
@@ -258,6 +268,19 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
 
         } else if tableView == routesResult {
             // PAINT EVERYTHING
+            let route = routes[indexPath.row]
+            //initialize your map view and add it to your view hierarchy - **set its delegate to self***
+            var coordinateArray = [CLLocationCoordinate2D]()
+            
+            for coord in route.route{
+                coordinateArray.append(CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude))
+            }
+            
+            polyline = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+            if let pol = polyline {
+                mapView.setVisibleMapRect(pol.boundingMapRect, animated: true)
+                mapView.addOverlay(pol)
+            }
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -266,6 +289,26 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
+    }
+}
+
+extension MainMapViewController : MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKCircle {
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.fillColor = UIColor.black.withAlphaComponent(0.5)
+            renderer.strokeColor = UIColor.blue
+            renderer.lineWidth = 2
+            return renderer
+            
+        } else if overlay is MKPolyline {
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = UIColor.orange
+            renderer.lineWidth = 3
+            return renderer
+        }
+        
+        return MKOverlayRenderer()
     }
 }
 

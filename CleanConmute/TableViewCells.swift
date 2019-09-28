@@ -58,16 +58,15 @@ class RouteTableViewCell: UITableViewCell {
                 case .ecar:
                     routeTypeIcon.image = UIImage.init(named: "vespa")?.withRenderingMode(.alwaysTemplate)
                 case .taxi:
-                    routeTypeIcon.image = UIImage.init(named: "plane")?.withRenderingMode(.alwaysTemplate)
-                    
+                    routeTypeIcon.image = UIImage.init(named: "taxi")?.withRenderingMode(.alwaysTemplate)
                 default:
-                    routeTypeIcon.image = UIImage.init(named: "swimming")?.withRenderingMode(.alwaysTemplate)
+                    routeTypeIcon.image = UIImage.init(named: "stepper")?.withRenderingMode(.alwaysTemplate)
                 }
                 
-                costLabel.text = "\(route_.price) CHF"
+                costLabel.text = "\(route_.price)$"
                 carbonFPLabel.text = "\(route_.carbonFootPrint)"
-                caloriesLabel.text = "\(route_.caloriesBurnt) kCal"
-                toxicLabel.text = "\(Int(route_.toxicityFootPrint))"
+                caloriesLabel.text = "\(UInt(route_.caloriesBurnt))kCal"
+                toxicLabel.text = "\(route_.toxicityFootPrint)"
                 timeLabel.text = route_.timeRequired()
                 
                 costIcon.tintColor = colorFromComponentsTuple(route_.priceColor)
@@ -80,6 +79,8 @@ class RouteTableViewCell: UITableViewCell {
                 toxicLabel.textColor = colorFromComponentsTuple(route_.toxicityFootPrintColor)
                 timeIcon.tintColor = colorFromComponentsTuple(route_.secondsRequiredColor)
                 timeLabel.textColor = colorFromComponentsTuple(route_.secondsRequiredColor)
+                
+                routeTypeIcon.tintColor = colorFromComponentsTuple(route_.color)
             }
         }
     }

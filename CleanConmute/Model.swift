@@ -8,9 +8,9 @@
 
 import Foundation
 
-let secondsDay : UInt = 24 * 60 * 60
-let secondsHour : UInt =  60 * 60
-let secondsMinute : UInt =  60
+let secondsDay : Double = 24 * 60 * 60
+let secondsHour : Double =  60 * 60
+let secondsMinute : Double =  60
 
 enum RouteType : String {
     case walking
@@ -47,28 +47,37 @@ struct Route {
     let carbonFootPrintColor : (Double, Double, Double)
     let toxicityFootPrint : Double
     let toxicityFootPrintColor : (Double, Double, Double)
-    let secondsRequired : UInt
+    let secondsRequired : Double
     let secondsRequiredColor : (Double, Double, Double)
-    let caloriesBurnt : Int
+    let caloriesBurnt : Double
     let caloriesBurntColor : (Double, Double, Double)
     let distance : Double
     let distanceColor : (Double, Double, Double)
     
-    //Color
+    //Color and total score
+    let totalScore : Double
     let color : (Double, Double, Double)
     
     // Poliline
-    let route : [(GPSLocation, GPSLocation)]
+    let route : [GPSLocation]
     
     // Utility function
     func timeRequired()-> String {
-        let days = secondsRequired / secondsDay
-        var remainder = secondsRequired % secondsDay
-        let hours = remainder / secondsHour
-        remainder %= secondsHour
-        let minutes = remainder / secondsMinute
-        remainder %= secondsMinute
-        return "\(days > 0 ? String(days) + "d" : "")\(hours > 0 ? String(hours) + "h" : "")\(days > 0 ? String(minutes) + "'" : "")"
+        let days = UInt(secondsRequired / secondsDay)
+        var remainder = UInt(secondsRequired) % UInt(secondsDay)
+        let hours = remainder / UInt(secondsHour)
+        remainder %= UInt(secondsHour)
+        let minutes = remainder / UInt(secondsMinute)
+        remainder %= UInt(secondsMinute)
+        
+        var finalString = ""
+        if days > 0 { finalString.append("\(days)d") }
+        if hours > 0 { finalString.append("\(hours)h") }
+        if minutes > 0 { finalString.append("\(minutes)'") }
+        if remainder > 0 { finalString.append("\(remainder)''") }
+        
+        print(finalString)
+        return finalString
     }
     
     init?(_ json : Any, type_string : String) {
@@ -78,7 +87,7 @@ struct Route {
             
 //            print(type_string)
 //            print("-----")
-            print(dict)
+//            print(dict)
             
             fromAsText = "Zurich, HB"
             toAsText = "IBM ZRL"
@@ -90,7 +99,7 @@ struct Route {
             
             // Info on route
             // Price
-            price = Double((dict["price"] as? String) ?? "0") ?? 0
+            price = (dict["price"] as? Double) ?? 0.0
             if let color = dict["price_col"] as? Array<Double> {
                 priceColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
             }else{
@@ -98,7 +107,7 @@ struct Route {
             }
             
             // Carbon footprint
-            carbonFootPrint = Double((dict["emission"] as? String) ?? "0") ?? 0
+            carbonFootPrint = (dict["emission"] as? Double) ?? 0.0
             if let color = dict["emission_col"] as? Array<Double> {
                 carbonFootPrintColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
             }else{
@@ -106,7 +115,7 @@ struct Route {
             }
             
             // Calories burnt
-            caloriesBurnt = Int((dict["calories"] as? String) ?? "0") ?? 0
+            caloriesBurnt = (dict["calories"] as? Double) ?? 0
             if let color = dict["calories_col"] as? Array<Double> {
                 caloriesBurntColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
             }else{
@@ -114,8 +123,8 @@ struct Route {
             }
             
             // Duration
-            let mins = UInt((dict["duration"] as? String) ?? "0") ?? 0
-            secondsRequired = mins * 60
+            let seconds = (dict["duration"] as? Double) ?? 0
+            secondsRequired = seconds
             if let color = dict["duration_col"] as? Array<Double> {
                 secondsRequiredColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
             }else{
@@ -123,7 +132,7 @@ struct Route {
             }
             
             //Toxicity
-            toxicityFootPrint = Double((dict["toxicity"] as? String) ?? "0") ?? 0
+            toxicityFootPrint = (dict["toxicity"] as? Double) ?? 0
             if let color = dict["toxicity_col"] as? Array<Double> {
                 toxicityFootPrintColor = (color[0]/255.0, color[1]/255.0, color[2]/255.0)
             }else{
@@ -131,33 +140,25 @@ struct Route {
             }
     
             // Distance
-            distance = Double((dict["distance"] as? String) ?? "0") ?? 0
+            distance = (dict["distance"] as? Double) ?? 0
             distanceColor = (0.5, 0.5, 0.5)
             
-            //Color
+            //Color and total score
+            totalScore = (dict["total_weighted_score"] as? Double) ?? 0
             if let color_ = dict["total_weighted_score_col"] as? Array<Double> {
-                color = (color_[0], color_[1], color_[2])
+                color = (color_[0]/255.0, color_[1]/255.0, color_[2]/255.0)
             }else{
                 color = (0.5, 0.5, 0.5)
             }
             
             // Polyline
-//            var route_container = [(GPSLocation, GPSLocation)]()
-//            if let coords = dict["coordinates"] as? Array<Array<Double>>{
-//                var first : GPSLocation? = nil
-//                for coord in coords{
-//                    // Prime
-//                    if first == nil {
-//                        first = GPSLocation(longitude: coord[0], latitude: coord[1], altitude: 0.0)
-//                    } else{
-//                        let next = GPSLocation(longitude: coord[0], latitude: coord[1], altitude: 0.0)
-//                        route_container.append((first!, next))
-//                        first = next
-//                    }
-//                }
-//            }
-//            route = route_container
-            route = []
+            var route_container = [GPSLocation]()
+            if let coords = dict["coordinates"] as? Array<Array<Double>>{
+                for coord in coords{
+                    route_container.append(GPSLocation(longitude: coord[1], latitude: coord[0], altitude: 0.0))
+                }
+            }
+            route = route_container
         }else{
             return nil
         }
