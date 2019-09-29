@@ -48,6 +48,8 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>NSAllowsArbitraryLoadsUsageDescription</key>
+		<dict/>
 	</dict>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -56,5 +58,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This application requests your location to calculate the best and greenest route</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This application requests your location to calculate the best and greenest route</string>
 </dict>
 </plist>

@@ -146,19 +146,20 @@ class UserProfile: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let icons = [(icon1, slider1, UIColor.red),
-                     (icon2, slider2, .green),
-                     (icon3, slider3, .blue),
-                     (icon4, slider4, .orange),
-                     (icon5, slider5, .cyan)]
+        var themes = [(UIImageView?, UISlider?, UIColor)]()
+        themes.append((icon1, slider1, UIColor.red))
+        themes.append((icon2, slider2, UIColor.init(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)))
+        themes.append((icon3, slider3, UIColor.blue))
+        themes.append((icon4, slider4, UIColor.orange))
+        themes.append((icon5, slider5, UIColor.purple))
         
-        for icon in icons{
-            if let theIcon = icon.0 {
+        for theme in themes{
+            if let theIcon = theme.0 {
                 theIcon.image = theIcon.image?.withRenderingMode(.alwaysTemplate)
-                theIcon.tintColor = icon.2
+                theIcon.tintColor = theme.2
             }
-            if let theSlider = icon.1 {
-                theSlider.tintColor = icon.2
+            if let theSlider = theme.1 {
+                theSlider.tintColor = theme.2
             }
         }
         

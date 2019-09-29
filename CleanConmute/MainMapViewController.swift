@@ -23,8 +23,22 @@ class MainMapViewController: UIViewController {
 //    }
     
     @IBOutlet weak var mapView : MKMapView!
+    @IBOutlet weak var mapType : UISegmentedControl!
+    
+    @IBAction func mapChangeType(_ sender : UISegmentedControl){
+        switch sender.selectedSegmentIndex {
+        case 1:
+            mapView.mapType = .satellite
+        case 2:
+            mapView.mapType = .hybrid
+        default:
+            mapView.mapType = .standard
+        }
+    }
+    
     var polyline : MKPolyline?
     var polylines = [(MKPolyline, (Double, Double, Double))]()
+    var circles = [(MKCircle, (Double, Double, Double), RouteType)]()
     //var polylineView : MKPolylineView?
     
     @IBOutlet weak var sizer : UIStackView!
@@ -48,10 +62,10 @@ class MainMapViewController: UIViewController {
     
     
     var routes = [Route]()
-    
     var locations = [String]()
-    
     var searchArea : ToFromSearch?
+    
+    let locationManager = CLLocationManager()
     
     lazy var locationResult : UITableView = UITableView(frame: mapView.frame)
     lazy var routesResult : UITableView = UITableView(frame: mapView.frame)
@@ -88,7 +102,7 @@ class MainMapViewController: UIViewController {
         super.viewDidLoad()
         addSearchArea()
         setDelegates()
-        
+        spinner.tintColor = .blue
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -117,11 +131,18 @@ class MainMapViewController: UIViewController {
     
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        locationManager.requestAlwaysAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
 
     func callAutoCompleteAPI(_ searchString : String) {
-        let stringRequest = base_url + "/query_autocomplete?user_location=\(zurichCoords)&search_string=\(searchString)"
+        
+        startSpinner( inScopeTextField )
+        let stringRequest = base_url + "/query_autocomplete?user_location=\(ownCoords)&search_string=\(searchString)"
         
         let url = URL(string: stringRequest.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
         
@@ -141,10 +162,27 @@ class MainMapViewController: UIViewController {
             if let loc = self?.locationResult{
                 DispatchQueue.main.async {
                     self?.toogleTableResults(loc)
+                    self?.stopSpinner()
                 }
             }
         }
         task.resume()
+    }
+    
+    var spinner = UIActivityIndicatorView(style: .gray)
+    
+    func startSpinner(_ iv : UIView?){
+        if let i = iv {
+            spinner.frame.origin = i.frame.origin
+            spinner.frame.origin.x = i.bounds.width - 24
+            spinner.frame.origin.y = 4
+            i.addSubview(spinner)
+        }
+        spinner.startAnimating()
+    }
+    func stopSpinner(){
+        spinner.stopAnimating()
+        spinner.removeFromSuperview()
     }
     
     func callRoutesAPI(source : String, destination : String){
@@ -153,7 +191,7 @@ class MainMapViewController: UIViewController {
         
         // Sanitize if current location
         if source == "Current Location" {
-            source_ = zurichCoords
+            source_ = ownCoords
         }
         
         let defaults = UserDefaults.standard
@@ -163,9 +201,11 @@ class MainMapViewController: UIViewController {
         let toxc = defaults.double(forKey: "toxicity_weight")
         let time = defaults.double(forKey: "time_weight")
         
+        startSpinner( inScopeTextField )
+        
         if let request = "/query_directions?source=\(source_)&destination=\(destination)&weights=\(cost),\(cals),\(emis),\(toxc),\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed){
             let urlEncodedStringRequest = base_url + request
-            print(urlEncodedStringRequest)
+            
             if let url = URL(string: urlEncodedStringRequest){
                 let task = URLSession.shared.dataTask(with: url) {[weak self](data, response, error) in
                     guard let data = data else { return }
@@ -190,6 +230,7 @@ class MainMapViewController: UIViewController {
                     if let rout = self?.routesResult{
                         DispatchQueue.main.async {
                             self?.toogleTableResults(rout)
+                            self?.stopSpinner()
                         }
                     }
                 }
@@ -199,7 +240,7 @@ class MainMapViewController: UIViewController {
     }
 }
 
-let zurichCoords = "47.3769,8.5417"
+var ownCoords = "47.3769,8.5417"
 
 extension MainMapViewController : UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -259,7 +300,6 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
                 searchArea?.showFromPanel()
             }
             
-            
             // Do the call if possible
             if let to = destinationTrip,
                 let from = originTrip
@@ -278,12 +318,28 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
         } else if tableView == routesResult {
             // PAINT EVERYTHING
             
+            for (line, _) in polylines{
+                mapView.removeOverlay(line)
+            }
+            polylines.removeAll()
+            
+            for (circ, _, _) in circles{
+                mapView.removeOverlay(circ)
+            }
+            circles.removeAll()
+            
             for route in routes {
                 let coordinateArray = route.route.map{CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}
                 let polylin = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
                 polylines.append((polylin, route.color))
                 mapView.addOverlay(polylin)
+                if coordinateArray.count > 0{
+                    let circ = MKCircle(center: coordinateArray[coordinateArray.count/2], radius: 20)
+                    circles.append((circ, route.color, route.type))
+                    mapView.addOverlay(circ)
+                }
             }
+            
             let route = routes[indexPath.row]
             let coordinateArray = route.route.map{CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}
             polyline = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
@@ -306,8 +362,12 @@ extension MainMapViewController : MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKCircle {
             let renderer = MKCircleRenderer(overlay: overlay)
-            renderer.fillColor = UIColor.black.withAlphaComponent(0.5)
             renderer.strokeColor = UIColor.blue
+            for (circ, color, _) in circles {
+                if circ === overlay {
+                    renderer.fillColor = UIColor.init(red: CGFloat(color.0), green: CGFloat(color.1), blue: CGFloat(color.2), alpha: 1.0)
+                }
+            }
             renderer.lineWidth = 2
             return renderer
             
@@ -319,12 +379,19 @@ extension MainMapViewController : MKMapViewDelegate {
                     renderer.strokeColor = UIColor.init(red: CGFloat(color.0), green: CGFloat(color.1), blue: CGFloat(color.2), alpha: 1.0)
                 }
             }
-            if overlay === polyline { renderer.lineWidth = 20 }
-            else { renderer.lineWidth = 7 }
+            if overlay === polyline { renderer.lineWidth = 16 }
+            else { renderer.lineWidth = 6 }
             
             return renderer
         }
         return MKOverlayRenderer()
+    }
+}
+
+extension MainMapViewController : CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        ownCoords = "\(locValue.latitude),\(locValue.longitude)"
     }
 }
 
