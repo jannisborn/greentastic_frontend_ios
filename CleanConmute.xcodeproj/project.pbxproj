@@ -59,7 +59,7 @@
 		0D546865233FDBCF003A5B8A /* cleancommute_icon-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cleancommute_icon-1024.png"; sourceTree = "<group>"; };
 		0D546866233FDBCF003A5B8A /* cleancommute_icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cleancommute_icon-76.png"; sourceTree = "<group>"; };
 		0D546867233FDBCF003A5B8A /* cleancommute_icon-83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cleancommute_icon-83.5@2x.png"; sourceTree = "<group>"; };
-		0D7D554B233EB3F7009A34F4 /* CleanConmute.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanConmute.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D7D554B233EB3F7009A34F4 /* Greentastic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Greentastic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D7D554E233EB3F7009A34F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0D7D5550233EB3F7009A34F4 /* MainMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapViewController.swift; sourceTree = "<group>"; };
 		0D7D5552233EB3F7009A34F4 /* UserProfile.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
@@ -117,7 +117,7 @@
 		0D7D554C233EB3F7009A34F4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0D7D554B233EB3F7009A34F4 /* CleanConmute.app */,
+				0D7D554B233EB3F7009A34F4 /* Greentastic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,7 +161,7 @@
 			);
 			name = CleanConmute;
 			productName = CleanConmute;
-			productReference = 0D7D554B233EB3F7009A34F4 /* CleanConmute.app */;
+			productReference = 0D7D554B233EB3F7009A34F4 /* Greentastic.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -388,15 +388,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HA3BXXH796;
+				DEVELOPMENT_TEAM = H8Z8J2BM93;
 				INFOPLIST_FILE = CleanConmute/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.CatApps.CleanConmute;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.greentastic;
+				PRODUCT_NAME = Greentastic;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -407,15 +407,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HA3BXXH796;
+				DEVELOPMENT_TEAM = H8Z8J2BM93;
 				INFOPLIST_FILE = CleanConmute/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.CatApps.CleanConmute;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.greentastic;
+				PRODUCT_NAME = Greentastic;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

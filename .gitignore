@@ -4,3 +4,4 @@ xcuserdata/
 .vscode
 __pycache__
 *.keypair
+*keypair*
