@@ -52,21 +52,23 @@ class RouteTableViewCell: UITableViewCell {
                 case .driving:
                     routeTypeIcon.image = UIImage.init(named: "car")?.withRenderingMode(.alwaysTemplate)
                 case .escooter:
-                    routeTypeIcon.image = UIImage.init(named: "ebike")?.withRenderingMode(.alwaysTemplate)
+                    routeTypeIcon.image = UIImage.init(named: "stepper")?.withRenderingMode(.alwaysTemplate)
                 case .transit:
                     routeTypeIcon.image = UIImage.init(named: "tram")?.withRenderingMode(.alwaysTemplate)
                 case .ecar:
                     routeTypeIcon.image = UIImage.init(named: "vespa")?.withRenderingMode(.alwaysTemplate)
                 case .taxi:
                     routeTypeIcon.image = UIImage.init(named: "taxi")?.withRenderingMode(.alwaysTemplate)
+                case .ebike:
+                    routeTypeIcon.image = UIImage.init(named: "ebike")?.withRenderingMode(.alwaysTemplate)
                 default:
-                    routeTypeIcon.image = UIImage.init(named: "stepper")?.withRenderingMode(.alwaysTemplate)
+                    fatalError("Wrong route type")
                 }
                 
                 costLabel.text = "\(route_.price)$"
-                carbonFPLabel.text = "\(route_.carbonFootPrint)"
+                carbonFPLabel.text = "\(route_.carbonFootPrint)kg"
                 caloriesLabel.text = "\(UInt(route_.caloriesBurnt))kCal"
-                toxicLabel.text = "\(route_.toxicityFootPrint)"
+                toxicLabel.text = "\(route_.toxicityFootPrint)g"
                 timeLabel.text = route_.timeRequired()
                 
                 costIcon.tintColor = colorFromComponentsTuple(route_.priceColor)

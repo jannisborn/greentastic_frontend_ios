@@ -21,20 +21,39 @@ class MainMapViewController: UIViewController {
 //            return CGPoint(x: originX, y: originY)
 //        }
 //    }
+    var currMap = 1
+    
     
     @IBOutlet weak var mapView : MKMapView!
     @IBOutlet weak var mapType : UISegmentedControl!
     
-    @IBAction func mapChangeType(_ sender : UISegmentedControl){
+    @IBAction func switchMapOverview(_ sender: UISegmentedControl) {
+    print("tags:", locationResult.tag, routesResult.tag)
         switch sender.selectedSegmentIndex {
+        
         case 1:
-            mapView.mapType = .satellite
-        case 2:
-            mapView.mapType = .hybrid
+            print("first case in segment")
+            locationResult.tag = 1
+            toogleTableResults(locationResult)
+            routesResult.tag = 0
+            toogleTableResults(routesResult)
+            satelliteButton.removeFromSuperview()
         default:
-            mapView.mapType = .standard
+            if routes.isEmpty{
+                print("route is empty")
+                locationResult.tag = 1
+                toogleTableResults(locationResult)
+                routesResult.tag = 1
+                toogleTableResults(routesResult)
+            }else{
+            paintRoutes(index: 0)
+                routesResult.tag = 1
+                toogleTableResults(routesResult)
+            }
+            view.addSubview(satelliteButton)
         }
     }
+    
     
     var polyline : MKPolyline?
     var polylines = [(MKPolyline, (Double, Double, Double))]()
@@ -60,6 +79,7 @@ class MainMapViewController: UIViewController {
         }
     }
     
+    let satelliteButton = UIButton(frame: CGRect(x: 20, y: 160, width: 50, height: 50))
     
     var routes = [Route]()
     var locations = [String]()
@@ -76,6 +96,38 @@ class MainMapViewController: UIViewController {
             if let area = searchArea{
                 sizer.insertArrangedSubview(area, at: 0)
             }
+        }
+    }
+    
+    func paintRoutes(index: Int){
+        for (line, _) in polylines{
+            mapView.removeOverlay(line)
+        }
+        polylines.removeAll()
+        
+        for (circ, _, _) in circles{
+            mapView.removeOverlay(circ)
+        }
+        circles.removeAll()
+        
+        for route in routes {
+            let coordinateArray = route.route.map{CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}
+            let polylin = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+            polylines.append((polylin, route.color))
+            mapView.addOverlay(polylin)
+            if coordinateArray.count > 0{
+                let circ = MKCircle(center: coordinateArray[coordinateArray.count/2], radius: 20)
+                circles.append((circ, route.color, route.type))
+                mapView.addOverlay(circ)
+            }
+        }
+        
+        let route = routes[0]
+        let coordinateArray = route.route.map{CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}
+        polyline = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+        if let pol = polyline {
+            mapView.setVisibleMapRect(pol.boundingMapRect, animated: true)
+            mapView.addOverlay(pol)
         }
     }
     
@@ -104,6 +156,36 @@ class MainMapViewController: UIViewController {
         setDelegates()
         spinner.tintColor = .blue
         // Do any additional setup after loading the view, typically from a nib.
+        
+        if #available(iOS 13.0, *) {
+            let symbolConfig = UIImage.SymbolConfiguration(textStyle: .largeTitle)
+            let image = UIImage(systemName: "square.stack.3d.up.fill", withConfiguration: symbolConfig)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+            satelliteButton.setImage(image, for: .normal)
+        } else {
+            // Fallback on earlier versions
+            let image = UIImage(named: "square.stack.3d.up.fill")
+            satelliteButton.setImage(image, for: .normal)
+        }
+        
+        // image.tintColor = .red
+        satelliteButton.addTarget(self, action: #selector(changeMapType), for: .touchUpInside)
+        
+
+        self.view.addSubview(satelliteButton)
+    }
+    
+    @objc func changeMapType(sender: UIButton!) {
+         switch currMap{
+             case 1:
+                 mapView.mapType = .satellite
+                 currMap = 2
+             case 2:
+                 mapView.mapType = .hybrid
+                 currMap = 3
+             default:
+                 mapView.mapType = .standard
+                 currMap = 1
+         }
     }
     
     func resetTableFrame(_ tableView : UITableView){
@@ -161,7 +243,9 @@ class MainMapViewController: UIViewController {
             }
             if let loc = self?.locationResult{
                 DispatchQueue.main.async {
+                    loc.tag = 0
                     self?.toogleTableResults(loc)
+                    self?.satelliteButton.removeFromSuperview()
                     self?.stopSpinner()
                 }
             }
@@ -230,6 +314,8 @@ class MainMapViewController: UIViewController {
                     if let rout = self?.routesResult{
                         DispatchQueue.main.async {
                             self?.toogleTableResults(rout)
+                        self?.satelliteButton.removeFromSuperview()
+                            self?.mapType.selectedSegmentIndex = 1;
                             self?.stopSpinner()
                         }
                     }
@@ -316,37 +402,7 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
             }
 
         } else if tableView == routesResult {
-            // PAINT EVERYTHING
-            
-            for (line, _) in polylines{
-                mapView.removeOverlay(line)
-            }
-            polylines.removeAll()
-            
-            for (circ, _, _) in circles{
-                mapView.removeOverlay(circ)
-            }
-            circles.removeAll()
-            
-            for route in routes {
-                let coordinateArray = route.route.map{CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}
-                let polylin = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
-                polylines.append((polylin, route.color))
-                mapView.addOverlay(polylin)
-                if coordinateArray.count > 0{
-                    let circ = MKCircle(center: coordinateArray[coordinateArray.count/2], radius: 20)
-                    circles.append((circ, route.color, route.type))
-                    mapView.addOverlay(circ)
-                }
-            }
-            
-            let route = routes[indexPath.row]
-            let coordinateArray = route.route.map{CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}
-            polyline = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
-            if let pol = polyline {
-                mapView.setVisibleMapRect(pol.boundingMapRect, animated: true)
-                mapView.addOverlay(pol)
-            }
+            paintRoutes(index: indexPath.row)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)

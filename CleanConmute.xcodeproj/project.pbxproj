@@ -36,6 +36,7 @@
 		0D7D5563233EC0FD009A34F4 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7D5562233EC0FD009A34F4 /* StatisticsViewController.swift */; };
 		0D7D5565233ECA24009A34F4 /* SearchBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7D5564233ECA24009A34F4 /* SearchBars.swift */; };
 		0D7D5569233ED3DA009A34F4 /* ToFromSearch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D7D5568233ED3DA009A34F4 /* ToFromSearch.xib */; };
+		837E956723F2E13B00D18E96 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837E956623F2E13B00D18E96 /* InfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		0D7D5562233EC0FD009A34F4 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		0D7D5564233ECA24009A34F4 /* SearchBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBars.swift; sourceTree = "<group>"; };
 		0D7D5568233ED3DA009A34F4 /* ToFromSearch.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToFromSearch.xib; sourceTree = "<group>"; };
+		837E956623F2E13B00D18E96 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 		0D7D554D233EB3F7009A34F4 /* CleanConmute */ = {
 			isa = PBXGroup;
 			children = (
+				837E956623F2E13B00D18E96 /* InfoViewController.swift */,
 				0D7D554E233EB3F7009A34F4 /* AppDelegate.swift */,
 				0D7D5550233EB3F7009A34F4 /* MainMapViewController.swift */,
 				0D7D5552233EB3F7009A34F4 /* UserProfile.swift */,
@@ -241,6 +244,7 @@
 				0D7D554F233EB3F7009A34F4 /* AppDelegate.swift in Sources */,
 				0D546850233F6108003A5B8A /* Model.swift in Sources */,
 				0D7D5551233EB3F7009A34F4 /* MainMapViewController.swift in Sources */,
+				837E956723F2E13B00D18E96 /* InfoViewController.swift in Sources */,
 				0D7D5563233EC0FD009A34F4 /* StatisticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
