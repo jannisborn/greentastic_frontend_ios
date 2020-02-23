@@ -284,9 +284,12 @@ class MainMapViewController: UIViewController {
         let toxc = defaults.double(forKey: "toxicity_weight")
         let time = defaults.double(forKey: "time_weight")
         
-        startSpinner( inScopeTextField )
+        let car_type_index = defaults.integer(forKey: "car_choice")
+        let car_choices = ["Petrol", "Petrol","Diesel", "Electric"] //TODO NO CAR?
+        let car_type = car_choices[car_type_index]
         
-        if let request = "/query_directions?source=\(source_)&destination=\(destination)&weights=\(cost),\(cals),\(emis),\(toxc),\(time)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed){
+        startSpinner( inScopeTextField )
+        if let request = "/query_directions?source=\(source_)&destination=\(destination)&car_type=\( car_type)&weights=\(time),\(emis),\(cost),\(cals),\(toxc)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed){
             let urlEncodedStringRequest = base_url + request
             
             if let url = URL(string: urlEncodedStringRequest){

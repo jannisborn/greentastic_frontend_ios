@@ -185,8 +185,13 @@ class UserProfile: UIViewController {
         }
     }
     
-    @IBAction func car_type(_ sender: UISegmentedControl) {
+    @IBAction func car_type_changed(_ sender: UISegmentedControl) {
         car = CarChoice(rawValue: sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "No") ?? .No
+    }
+    
+    @IBAction func car_type(_ sender: UISegmentedControl) {
+        print("Unused function - was wrong in code")
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
