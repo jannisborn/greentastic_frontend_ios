@@ -221,7 +221,6 @@ class MainMapViewController: UIViewController {
     }
 
     func callAutoCompleteAPI(_ searchString : String) {
-        
         startSpinner( inScopeTextField )
         let stringRequest = base_url + "/query_autocomplete?user_location=\(ownCoords)&search_string=\(searchString)"
         
@@ -242,6 +241,8 @@ class MainMapViewController: UIViewController {
             }
             if let loc = self?.locationResult{
                 DispatchQueue.main.async {
+                    self?.routesResult.tag = 1
+                    self?.toogleTableResults(self!.routesResult)
                     loc.tag = 0
                     self?.toogleTableResults(loc)
                     self?.satelliteButton.removeFromSuperview()
@@ -410,6 +411,7 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
         
         tableView.deselectRow(at: indexPath, animated: true)
         toogleTableResults(tableView)
+        self.view.addSubview(satelliteButton)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
