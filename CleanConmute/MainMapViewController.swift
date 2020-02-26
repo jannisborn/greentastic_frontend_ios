@@ -407,11 +407,45 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
         } else if tableView == routesResult {
             self.mapType.selectedSegmentIndex = 0; //switch tab bar
             paintRoutes(index: indexPath.row)
+            
+            // update statistics values
+            let defaults = UserDefaults.standard
+            let selectedRoute = routes[indexPath.row]
+            let route_properties = [selectedRoute.price, selectedRoute.caloriesBurnt, selectedRoute.carbonFootPrint, selectedRoute.toxicityFootPrint]
+            let keys = ["dollar_val", "flame_val", "co2_val", "toxic_val"]
+            let worst_cases = helper_compute_max()
+            // save values
+            for i in 0...3{
+                let prev_val = defaults.double(forKey: keys[i])
+                let worst_prev_val = defaults.double(forKey: keys[i]+"worst")
+                defaults.set(worst_prev_val+worst_cases[i], forKey: keys[i]+"worst")
+                defaults.set(prev_val + route_properties[i], forKey: keys[i])
+            }
+            defaults.synchronize()
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
         toogleTableResults(tableView)
         self.view.addSubview(satelliteButton)
+    }
+    
+    func helper_compute_max() -> Array<Double> {
+        var max_arr = [0.0, 1000, 0, 0] // high value for calories is good
+        for route in routes {
+            if route.price > max_arr[0]{
+                max_arr[0] = route.price
+            }
+            if route.caloriesBurnt < max_arr[1]{
+                max_arr[1] = route.caloriesBurnt
+            }
+            if route.carbonFootPrint > max_arr[2]{
+                max_arr[2] = route.carbonFootPrint
+            }
+            if route.toxicityFootPrint > max_arr[3]{
+                max_arr[3] = route.toxicityFootPrint
+            }
+        }
+        return max_arr
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

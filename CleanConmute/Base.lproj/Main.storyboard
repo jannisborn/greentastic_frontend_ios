@@ -327,40 +327,7 @@
                     <view key="view" contentMode="scaleToFill" id="o8G-eb-nhA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pieplot" translatesAutoresizingMaskIntoConstraints="NO" id="Ug2-ra-d92">
-                                <rect key="frame" x="62.5" y="208.5" width="250" height="250"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="250" id="PJp-Zd-xV8"/>
-                                    <constraint firstAttribute="width" constant="250" id="btq-jo-hXu"/>
-                                </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bicycle" translatesAutoresizingMaskIntoConstraints="NO" id="EJV-wE-dQH">
-                                <rect key="frame" x="69" y="185" width="58" height="58"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="car" translatesAutoresizingMaskIntoConstraints="NO" id="CDy-Br-1yN">
-                                <rect key="frame" x="210" y="169" width="58" height="58"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ebike" translatesAutoresizingMaskIntoConstraints="NO" id="OH4-48-gKU">
-                                <rect key="frame" x="291" y="244" width="58" height="58"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bus" translatesAutoresizingMaskIntoConstraints="NO" id="vUQ-0n-mrr">
-                                <rect key="frame" x="158" y="446" width="58" height="58"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="walking" translatesAutoresizingMaskIntoConstraints="NO" id="XHO-Yd-Vbc">
-                                <rect key="frame" x="16" y="325" width="58" height="58"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Ug2-ra-d92" firstAttribute="centerX" secondItem="o8G-eb-nhA" secondAttribute="centerX" id="o9m-t5-4kj"/>
-                            <constraint firstItem="Ug2-ra-d92" firstAttribute="centerY" secondItem="o8G-eb-nhA" secondAttribute="centerY" id="ohu-Tn-PlN"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="chart" selectedImage="chart" id="Go1-4T-RUS"/>
                 </viewController>
@@ -403,33 +370,38 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L10-gw-CfA">
                                 <rect key="frame" x="127" y="0.0" width="125" height="61"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F5g-dP-6Z4">
+                                        <rect key="frame" x="-98" y="8" width="335" height="579"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <viewLayoutGuide key="contentLayoutGuide" id="saV-ny-ICS"/>
+                                        <viewLayoutGuide key="frameLayoutGuide" id="XkD-vf-bi3"/>
+                                    </scrollView>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="info.circle" catalog="system" id="NQe-nA-V3e"/>
+                    <connections>
+                        <outlet property="scrollInfo" destination="g3N-gT-Tbt" id="rj7-Vg-Jpq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yoq-tf-weF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20" y="877"/>
+            <point key="canvasLocation" x="-20" y="876.61169415292363"/>
         </scene>
     </scenes>
     <resources>
-        <image name="bicycle" width="20" height="20"/>
-        <image name="bus" width="20" height="20"/>
-        <image name="car" width="20" height="20"/>
         <image name="chart" width="20" height="20"/>
         <image name="co2" width="20" height="20"/>
         <image name="dollar" width="20" height="20"/>
-        <image name="ebike" width="20" height="20"/>
         <image name="flame" width="20" height="20"/>
         <image name="gasmask" width="20" height="20"/>
         <image name="info.circle" catalog="system" width="64" height="60"/>
         <image name="map" width="20" height="20"/>
-        <image name="pieplot" width="386" height="354.66665649414062"/>
         <image name="timer" width="20" height="20"/>
         <image name="user" width="20" height="20"/>
-        <image name="walking" width="20" height="20"/>
     </resources>
 </document>
