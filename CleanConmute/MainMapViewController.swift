@@ -156,15 +156,18 @@ class MainMapViewController: UIViewController {
         spinner.tintColor = .blue
         // Do any additional setup after loading the view, typically from a nib.
         
-        if #available(iOS 13.0, *) {
-            let symbolConfig = UIImage.SymbolConfiguration(textStyle: .largeTitle)
-            let image = UIImage(systemName: "square.stack.3d.up.fill", withConfiguration: symbolConfig)?.withTintColor(.black, renderingMode: .alwaysOriginal)
-            satelliteButton.setImage(image, for: .normal)
-        } else {
-            // Fallback on earlier versions
-            let image = UIImage(named: "square.stack.3d.up.fill")
-            satelliteButton.setImage(image, for: .normal)
-        }
+        let image = UIImage(named: "map_symbol_without_border")
+        satelliteButton.setImage(image, for: .normal)
+        
+//        if #available(iOS 13.0, *) {
+//            let symbolConfig = UIImage.SymbolConfiguration(textStyle: .largeTitle)
+//            let image = UIImage(systemName: "square.stack.3d.up.fill", withConfiguration: symbolConfig)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+//            satelliteButton.setImage(image, for: .normal)
+//        } else {
+//            // Fallback on earlier versions
+//            let image = UIImage(named: "square.stack.3d.up.fill")
+//            satelliteButton.setImage(image, for: .normal)
+//        }
         
         // image.tintColor = .red
         satelliteButton.addTarget(self, action: #selector(changeMapType), for: .touchUpInside)
