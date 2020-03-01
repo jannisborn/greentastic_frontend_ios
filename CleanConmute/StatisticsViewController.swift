@@ -18,7 +18,7 @@ class StatisticsViewController: UIViewController {
     let categories = ["dollar", "flame", "co2", "toxic"]
     let einheiten = ["$", "kcal", "kg", "g"]
     //smiley1 is happy, smiley5 is unhappy
-    let smileyoptions = ["smiley1", "smiley_2", "smiley1", "smiley_4", "smiley_5"]
+    let smileyoptions = ["smiley_1", "smiley_2", "smiley_3", "smiley_4", "smiley_5"]
     
     let green = [0.4, 0.8, 0.2]
     let red = [0.86, 0.08, 0.24]
@@ -154,9 +154,8 @@ class StatisticsViewController: UIViewController {
                 // set corresponding smiley
                 let roundedscore = round(score*4)
                 let smileyimg = UIImage(named: smileyoptions[Int(roundedscore)])
-                print(smileyoptions[Int(roundedscore)], roundedscore)
-                smileys[i].image = smileyimg // ?.withRenderingMode(.alwaysTemplate)
-                // smileys[i].tintColor = colorUI //TODO
+                smileys[i].image = smileyimg?.withRenderingMode(.alwaysTemplate)
+                smileys[i].tintColor = colorUI //TODO
             }
             
             // set text of percent labels

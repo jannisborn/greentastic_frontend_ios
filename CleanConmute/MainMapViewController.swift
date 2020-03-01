@@ -170,7 +170,6 @@ class MainMapViewController: UIViewController {
         }
         // take height, subtract the weird iphone 11 bottom space, the tab bar, the segmentedControl, the height of the button and 30 extra for the apple maps icon
         let posButton = screenHeight - bottomSafeAreaHeight - heightTabBar - heightMapTypeBar - 80
-        print(screenHeight, bottomSafeAreaHeight, heightTabBar, heightMapTypeBar)
         satelliteButton.frame = CGRect(x: 10, y: posButton, width: 50, height: 50)
         satelliteButton.setImage(image, for: .normal)
         satelliteButton.imageView?.contentMode = .scaleAspectFit
