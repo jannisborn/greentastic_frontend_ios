@@ -17,13 +17,14 @@ class StatisticsViewController: UIViewController {
     
     let categories = ["dollar", "flame", "co2", "toxic"]
     let einheiten = ["$", "kcal", "kg", "g"]
-    let smileyoptions = ["happysmiley", "neutralsmiley"]
+    //smiley1 is happy, smiley5 is unhappy
+    let smileyoptions = ["smiley1", "smiley_2", "smiley1", "smiley_4", "smiley_5"]
     
     let green = [0.4, 0.8, 0.2]
     let red = [0.86, 0.08, 0.24]
     let yellow = [0.78, 0.78, 0.2]
     let greenYellow = [0.38, -0.02, 0] // yellow - green
-    let yellowRed = [0.08, -0.7, 0.04]// red - yellow
+    let yellowRed = [0.08, -0.7, 0.04] // red - yellow
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,7 +91,7 @@ class StatisticsViewController: UIViewController {
             self.view.addSubview(rel_label)
             
             // add smiley
-            let smileyimg = UIImage(named: "happysmiley")
+            let smileyimg = UIImage(named: smileyoptions[2])
             let smiley = UIImageView(image: smileyimg!)
             smiley.frame = CGRect(x:Int(4*screenWidth/5), y:posY+5, width:40, height:40)
             view.addSubview(smiley)
@@ -115,7 +116,15 @@ class StatisticsViewController: UIViewController {
             defaults.set(0, forKey: categories[i]+"_val")
             defaults.set(0, forKey: categories[i]+"_valworst")
             label_list[i].text = "0.0 "+einheiten[i]
-            saved_label_list[i].text = "0.0 " // +einheiten[i]
+            saved_label_list[i].text = "0.0 %" // +einheiten[i]
+            
+            // reset text colour to black
+            let colorUI = UIColor(red: CGFloat(0), green: CGFloat(0), blue: CGFloat(0), alpha: 1.0)
+            saved_label_list[i].textColor = colorUI
+            label_list[i].textColor = colorUI
+            
+            // reset smileys
+            smileys[i].image = UIImage(named: smileyoptions[2])
         }
     }
     
@@ -130,15 +139,12 @@ class StatisticsViewController: UIViewController {
             
             var percent_val = 0
             if worst_val != 0{
-                percent_val = Int((emis_val/worst_val)*100)
-            }
-            saved_label_list[i].text = "\(percent_val) %" //+einheiten[i]
-            
-            // set text colour
-            var score = emis_val/worst_val
-            if score <= 1 {
+                percent_val = Int(round((emis_val/worst_val)*100))
+                
+                // set text colour
+                var score = emis_val/worst_val
                 if i==1{
-                    score = 1-score
+                    score = 1-score // convert for calories
                 }
                 let textcol = getColour(score: score)
                 let colorUI = UIColor(red: CGFloat(textcol[0]), green: CGFloat(textcol[1]), blue: CGFloat(textcol[2]), alpha: 1.0)
@@ -146,12 +152,16 @@ class StatisticsViewController: UIViewController {
                 label_list[i].textColor = colorUI
                 
                 // set corresponding smiley
-                let roundedscore = round(score)
+                let roundedscore = round(score*4)
                 let smileyimg = UIImage(named: smileyoptions[Int(roundedscore)])
-                let smiley = smileys[i]
-                smiley.image = smileyimg?.withRenderingMode(.alwaysTemplate)
-                smiley.tintColor = colorUI
+                print(smileyoptions[Int(roundedscore)], roundedscore)
+                smileys[i].image = smileyimg // ?.withRenderingMode(.alwaysTemplate)
+                // smileys[i].tintColor = colorUI //TODO
             }
+            
+            // set text of percent labels
+            saved_label_list[i].text = "\(percent_val) %" //+einheiten[i]
+            
         }
     }
     
