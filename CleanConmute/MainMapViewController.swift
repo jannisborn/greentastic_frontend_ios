@@ -77,7 +77,7 @@ class MainMapViewController: UIViewController {
         }
     }
     
-    let satelliteButton = UIButton(frame: CGRect(x: 20, y: 160, width: 50, height: 50))
+    let satelliteButton = UIButton(frame: CGRect(x: 10, y: 510, width: 50, height: 50))
     
     var routes = [Route]()
     var locations = [String]()
@@ -157,19 +157,24 @@ class MainMapViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         let image = UIImage(named: "map_symbol_without_border")
+        
+        let heightTabBar = self.tabBarController!.tabBar.frame.height
+        let heightMapTypeBar = self.mapType.frame.height
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height
+        var bottomSafeAreaHeight: CGFloat = 0
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.windows[0]
+            let safeFrame = window.safeAreaLayoutGuide.layoutFrame
+            bottomSafeAreaHeight = window.frame.maxY - safeFrame.maxY
+        }
+        // take height, subtract the weird iphone 11 bottom space, the tab bar, the segmentedControl, the height of the button and 30 extra for the apple maps icon
+        let posButton = screenHeight - bottomSafeAreaHeight - heightTabBar - heightMapTypeBar - 80
+        print(screenHeight, bottomSafeAreaHeight, heightTabBar, heightMapTypeBar)
+        satelliteButton.frame = CGRect(x: 10, y: posButton, width: 50, height: 50)
         satelliteButton.setImage(image, for: .normal)
+        satelliteButton.imageView?.contentMode = .scaleAspectFit
         
-//        if #available(iOS 13.0, *) {
-//            let symbolConfig = UIImage.SymbolConfiguration(textStyle: .largeTitle)
-//            let image = UIImage(systemName: "square.stack.3d.up.fill", withConfiguration: symbolConfig)?.withTintColor(.black, renderingMode: .alwaysOriginal)
-//            satelliteButton.setImage(image, for: .normal)
-//        } else {
-//            // Fallback on earlier versions
-//            let image = UIImage(named: "square.stack.3d.up.fill")
-//            satelliteButton.setImage(image, for: .normal)
-//        }
-        
-        // image.tintColor = .red
         satelliteButton.addTarget(self, action: #selector(changeMapType), for: .touchUpInside)
         
 
@@ -289,7 +294,7 @@ class MainMapViewController: UIViewController {
         let time = defaults.double(forKey: "time_weight")
         
         let car_type_index = defaults.integer(forKey: "car_choice")
-        let car_choices = ["Petrol", "Petrol","Diesel", "Electric"] //TODO NO CAR?
+        let car_choices = ["Petrol", "Petrol","Diesel", "Electric"]
         let car_type = car_choices[car_type_index]
         
         startSpinner( inScopeTextField )
@@ -433,19 +438,13 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
     }
     
     func helper_compute_max() -> Array<Double> {
-        var max_arr = [0.0, 1000, 0, 0] // high value for calories is good
+        var max_arr = [0.0, 0, 0, 0] // high value for calories is good
         for route in routes {
-            if route.price > max_arr[0]{
-                max_arr[0] = route.price
-            }
-            if route.caloriesBurnt < max_arr[1]{
-                max_arr[1] = route.caloriesBurnt
-            }
-            if route.carbonFootPrint > max_arr[2]{
-                max_arr[2] = route.carbonFootPrint
-            }
-            if route.toxicityFootPrint > max_arr[3]{
-                max_arr[3] = route.toxicityFootPrint
+            let crits = [route.price, route.caloriesBurnt, route.carbonFootPrint, route.toxicityFootPrint]
+            for i in 0...3{
+                if crits[i] > max_arr[i] {
+                    max_arr[i] = crits[i]
+                }
             }
         }
         return max_arr

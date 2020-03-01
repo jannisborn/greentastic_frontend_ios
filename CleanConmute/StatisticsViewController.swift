@@ -13,8 +13,17 @@ class StatisticsViewController: UIViewController {
     // var label_list = [UILabel(frame: CGRect(x: 50, y: 50, width: 100, height: 50)),
     var label_list: [UILabel] = []
     var saved_label_list: [UILabel] = []
+    var smileys: [UIImageView] = []
+    
     let categories = ["dollar", "flame", "co2", "toxic"]
     let einheiten = ["$", "kcal", "kg", "g"]
+    let smileyoptions = ["happysmiley", "neutralsmiley"]
+    
+    let green = [0.4, 0.8, 0.2]
+    let red = [0.86, 0.08, 0.24]
+    let yellow = [0.78, 0.78, 0.2]
+    let greenYellow = [0.38, -0.02, 0] // yellow - green
+    let yellowRed = [0.08, -0.7, 0.04]// red - yellow
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,19 +52,13 @@ class StatisticsViewController: UIViewController {
         //start y
         var posY = 170
         // header for table  label:
-        let header = UILabel(frame: CGRect(x:Int(2*screenWidth/5), y:posY+50, width:150, height:30))
-        header.center = CGPoint(x: Int(2*screenWidth/5), y: posY+50)
+        let header = UILabel(frame: CGRect(x:0, y:posY+40, width:Int(screenWidth)-100, height:30))
+        header.center = CGPoint(x: Int(screenWidth/2), y: posY+40)
         header.textAlignment = .center
-        header.font = UIFont.boldSystemFont(ofSize: 18.0)
-        header.text = "Used"
+        header.font = UIFont.boldSystemFont(ofSize: 16.0)
+        header.text = "Achieved (% of best/worst case)"
         self.view.addSubview(header)
-        
-        let header2 = UILabel(frame: CGRect(x:Int(3*screenWidth/4), y:posY+50, width:150, height:30))
-        header2.center = CGPoint(x: Int(3*screenWidth/4), y: posY+50)
-        header2.textAlignment = .center
-        header2.font = UIFont.boldSystemFont(ofSize: 18.0)
-        header2.text = "of worst one"
-        self.view.addSubview(header2)
+
         
         for i in 0...3{
             let cat = categories[i]
@@ -67,25 +70,31 @@ class StatisticsViewController: UIViewController {
             self.view.addSubview(imageView)
             
             // add absolute label
-            let val_label = UILabel(frame: CGRect(x:Int(2*screenWidth/5), y:posY+30, width:150, height:30))
-            val_label.center = CGPoint(x: Int(2*screenWidth/5), y: posY+30)
+            let val_label = UILabel(frame: CGRect(x:Int(2*screenWidth/5), y:posY+23, width:150, height:30))
+            val_label.center = CGPoint(x: Int(2*screenWidth/5), y: posY+23)
             val_label.textAlignment = .center
-            val_label.font = UIFont(name:"HelveticaNeue", size: 18)
+            val_label.font =  UIFont.boldSystemFont(ofSize: 15.0)
             // get emission value
             val_label.text = "0.0 "+einheiten[i]
             label_list.append(val_label)
             self.view.addSubview(val_label)
             
             // add relative label
-            let rel_label = UILabel(frame: CGRect(x:Int(3*screenWidth/4), y:posY+30, width:150, height:30))
-            rel_label.center = CGPoint(x: Int(3*screenWidth/4), y: posY+30)
+            let rel_label = UILabel(frame: CGRect(x:Int(3*screenWidth/5), y:posY+23, width:150, height:30))
+            rel_label.center = CGPoint(x: Int(3*screenWidth/5), y: posY+23)
             rel_label.textAlignment = .center
-            rel_label.font = UIFont(name:"HelveticaNeue", size: 18)
+            rel_label.font =  UIFont.boldSystemFont(ofSize: 15.0) // UIFont(name:"HelveticaNeue", size: 15)
             // get emission value
             rel_label.text = "0.0 " //+einheiten[i]
             saved_label_list.append(rel_label)
             self.view.addSubview(rel_label)
             
+            // add smiley
+            let smileyimg = UIImage(named: "happysmiley")
+            let smiley = UIImageView(image: smileyimg!)
+            smiley.frame = CGRect(x:Int(4*screenWidth/5), y:posY+5, width:40, height:40)
+            view.addSubview(smiley)
+            smileys.append(smiley)
             }
         
         // reset button
@@ -124,18 +133,39 @@ class StatisticsViewController: UIViewController {
                 percent_val = Int((emis_val/worst_val)*100)
             }
             saved_label_list[i].text = "\(percent_val) %" //+einheiten[i]
+            
+            // set text colour
+            var score = emis_val/worst_val
+            if score <= 1 {
+                if i==1{
+                    score = 1-score
+                }
+                let textcol = getColour(score: score)
+                let colorUI = UIColor(red: CGFloat(textcol[0]), green: CGFloat(textcol[1]), blue: CGFloat(textcol[2]), alpha: 1.0)
+                saved_label_list[i].textColor = colorUI
+                label_list[i].textColor = colorUI
+                
+                // set corresponding smiley
+                let roundedscore = round(score)
+                let smileyimg = UIImage(named: smileyoptions[Int(roundedscore)])
+                let smiley = smileys[i]
+                smiley.image = smileyimg?.withRenderingMode(.alwaysTemplate)
+                smiley.tintColor = colorUI
+            }
         }
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func getColour(score: Double) -> Array<Double> {
+        if score < 0.5 {
+            let scale = (score/0.5)
+            let greenYellowScale = [scale*greenYellow[0], scale*greenYellow[1], scale*greenYellow[2]]
+            let col = zip(green, greenYellowScale).map(+)
+            return col
+        }else{
+            let scale = ((score-0.5)/0.5)
+            let yellowRedScale = [scale*yellowRed[0], scale*yellowRed[1], scale*yellowRed[2]]
+            let col = zip(yellow, yellowRedScale).map(+)
+            return col
+        }
     }
-    */
-
 }
