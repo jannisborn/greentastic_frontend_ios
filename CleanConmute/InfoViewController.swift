@@ -30,14 +30,17 @@ class InfoViewController: UIViewController {
         self.view.addSubview(title_label)
         
         // text label
-        let label = UILabel(frame: CGRect(x: 0, y: 30, width: screenWidth-30, height: 221))
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth-30, height: 400))
 //        label.center = CGPoint(x: screenWidth/2, y: screenHeight * (1/14 + 35000/(screenWidth*screenHeight)))
-        let label_center = screenHeight * (1/12) + 50000/screenWidth
-        label.center = CGPoint(x: screenWidth/2, y: label_center)
+        let label_center = screenHeight * (1/14) + screenHeight * (65/screenWidth)
+        // This is to get the size of the UIlabel dynamically
+        label.center = CGPoint(x: screenWidth/2, y: .greatestFiniteMagnitude)
         label.textAlignment = .justified
         label.font = UIFont(name:"HelveticaNeue", size: 13.0)
-        label.text = "Greentastic helps you to find the best type of transport for your commute! \nIt compares by 5 criteria: Cost, CO2-emissions, duration, nitric oxide emissions and the calories you burn. \nType in a destination and get an overview of respective scores, as well as the routes. \n\nDISCLAIMER: We do not claim correctness of any of the provided information. Prices are estimations, and emissions are researched to the best of our knowledge, but different sources claim different values. For transparancy, we provide all our sources below. Tap the transport symbol for each category to open the source links in your browser."
+        label.text = "Greentastic helps you to find the best type of transport for your commute! \nIt compares by 5 criteria: Cost, CO2-emissions, duration, nitric oxide emissions and the calories you burn. \nType in a destination and get an overview of respective scores, as well as the routes. \n\nDISCLAIMER: We do not claim correctness of any of the provided information. Prices are estimations, and emissions are researched to the best of our knowledge, but different sources claim different values. \n\nFor transparancy, we provide all our sources below. Tap the transport symbol for each category to open the source links in your browser."
 //        label.sizeToFit()
+        let text_center_height = label.frame.height/3 + screenHeight * (1/14)
+        label.center = CGPoint(x: screenWidth/2, y: text_center_height)
         label.contentMode = .scaleToFill
         label.numberOfLines = 0
         self.view.addSubview(label)
@@ -55,9 +58,10 @@ class InfoViewController: UIViewController {
         // let arrayOfVillains = ["s", "b", "s", "b"]
                 
         var buttonX: CGFloat = 20  // our Starting Offset, could be 0
+        let icons_height = label.frame.height*(1/3) + screenHeight * (1/14)
         let widthforone = (screenWidth-2*buttonX)/5
         for villain in categories {
-            let villainButton = UIButton(frame: CGRect(x: buttonX, y: label_center + 0.2*screenHeight, width: 50, height: 50))
+            let villainButton = UIButton(frame: CGRect(x: buttonX, y: icons_height + 0.2*screenHeight, width: 50, height: 50))
             let image = UIImage(named: villain)
             villainButton.setImage(image, for: .normal)
             villainButton.contentVerticalAlignment = .fill
@@ -123,8 +127,8 @@ class InfoViewController: UIViewController {
         
         
         // license text
-        let license_text = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth*0.8, height: 221))
-        license_text.center = CGPoint(x: 10+0.8*screenWidth/2, y: screenHeight * (8/9)-10)
+        let license_text = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 221))
+        license_text.center = CGPoint(x: 10+screenWidth/2, y: screenHeight * (8/9)-10)
         license_text.textAlignment = .left
         license_text.font = UIFont(name:"HelveticaNeue", size: 13.0)
         let license = "License"
