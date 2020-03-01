@@ -37,7 +37,7 @@ class InfoViewController: UIViewController {
         label.center = CGPoint(x: screenWidth/2, y: .greatestFiniteMagnitude)
         label.textAlignment = .justified
         label.font = UIFont(name:"HelveticaNeue", size: 13.0)
-        label.text = "Greentastic helps you to find the best type of transport for your commute! \nIt compares by 5 criteria: Cost, CO2-emissions, duration, nitric oxide emissions and the calories you burn. \nType in a destination and get an overview of respective scores, as well as the routes. \n\nDISCLAIMER: We do not claim correctness of any of the provided information. Prices are estimations, and emissions are researched to the best of our knowledge, but different sources claim different values. \n\nFor transparancy, we provide all our sources below. Tap the transport symbol for each category to open the source links in your browser."
+        label.text = "Greentastic helps you to find the best type of transport for your commute! \nIt compares by 5 criteria: Cost, CO2-emissions, duration, nitric oxide emissions and the calories you burn. \nType in a destination and get an overview of respective scores, as well as the routes. \n\nDISCLAIMER: We do not claim correctness of any of the provided information. Prices are estimations, and emissions are researched to the best of our knowledge, but different sources claim different values. \n\nFor transparancy, we provide all our sources below. Tap the transport symbol for each category to open the source links in your browser. We use the GoogleMaps API to compute directions."
 //        label.sizeToFit()
         let text_center_height = label.frame.height/3 + screenHeight * (1/14)
         label.center = CGPoint(x: screenWidth/2, y: text_center_height)
@@ -173,22 +173,22 @@ class InfoViewController: UIViewController {
         }
     }
     @objc func goCarbonLink() {
-        if let url = URL(string: "https://www.foodspring.ch/kalorienverbrauch-tabelle"){
+        if let url = URL(string: "https://github.com/jannisborn/greentastic/blob/master/SOURCES.md/#environment"){
             UIApplication.shared.open(url)
         }
     }
     @objc func goToxicityLink() {
-        if let url = URL(string: "https://www.foodspring.ch/kalorienverbrauch-tabelle"){
+        if let url = URL(string: "https://github.com/jannisborn/greentastic/blob/master/SOURCES.md/#environment"){
             UIApplication.shared.open(url)
         }
     }
     @objc func goDurationLink() {
-        if let url = URL(string: "https://www.foodspring.ch/kalorienverbrauch-tabelle"){
+        if let url = URL(string: "https://www.google.com/maps"){
             UIApplication.shared.open(url)
         }
     }
     @objc func goPriceLink() {
-        if let url = URL(string: "https://www.foodspring.ch/kalorienverbrauch-tabelle"){
+        if let url = URL(string: "https://github.com/jannisborn/greentastic/blob/master/SOURCES.md/#prices"){
             UIApplication.shared.open(url)
         }
     }
