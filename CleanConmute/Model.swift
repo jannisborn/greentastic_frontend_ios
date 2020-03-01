@@ -74,7 +74,7 @@ struct Route {
         if days > 0 { finalString.append("\(days)d") }
         if hours > 0 { finalString.append("\(hours)h") }
         if minutes > 0 { finalString.append("\(minutes)'") }
-        if remainder > 0 { finalString.append("\(remainder)''") }
+        // if remainder > 0 { finalString.append("\(remainder)''") } // do not need seconds
         
         return finalString
     }

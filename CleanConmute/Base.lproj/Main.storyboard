@@ -287,12 +287,6 @@
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="BOg-bg-w2J" firstAttribute="top" secondItem="JnK-1r-dYo" secondAttribute="bottom" constant="30" id="B6Z-4r-zMY"/>
-                                    <constraint firstItem="shD-m5-iBJ" firstAttribute="top" secondItem="4ik-qn-L9z" secondAttribute="top" constant="20" id="DuK-I9-U7X"/>
-                                    <constraint firstItem="JnK-1r-dYo" firstAttribute="top" secondItem="shD-m5-iBJ" secondAttribute="bottom" constant="30" id="hBr-ln-qhT"/>
-                                    <constraint firstItem="Jxr-NE-rAe" firstAttribute="top" secondItem="BOg-bg-w2J" secondAttribute="bottom" constant="30" id="vsh-SA-KfB"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
