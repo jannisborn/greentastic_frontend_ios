@@ -195,11 +195,11 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="58" translatesAutoresizingMaskIntoConstraints="NO" id="JSV-4W-gNN">
                                                 <rect key="frame" x="0.0" y="168" width="343" height="42"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gasmask" translatesAutoresizingMaskIntoConstraints="NO" id="d42-sD-fdx">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toxic" translatesAutoresizingMaskIntoConstraints="NO" id="0ma-0B-jy3">
                                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="42" id="ILl-bY-hLP"/>
-                                                            <constraint firstAttribute="height" constant="42" id="pBT-lz-Ipx"/>
+                                                            <constraint firstAttribute="height" constant="42" id="cJ8-0L-Z2N"/>
+                                                            <constraint firstAttribute="width" constant="42" id="ehb-on-ieC"/>
                                                         </constraints>
                                                     </imageView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="W4R-Ad-7cg">
@@ -221,7 +221,7 @@
                                                     </stackView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="W4R-Ad-7cg" firstAttribute="height" secondItem="d42-sD-fdx" secondAttribute="height" id="7AT-IZ-uUp"/>
+                                                    <constraint firstItem="W4R-Ad-7cg" firstAttribute="height" secondItem="0ma-0B-jy3" secondAttribute="height" id="1d9-fd-K03"/>
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="58" translatesAutoresizingMaskIntoConstraints="NO" id="Pzv-vJ-gk3">
@@ -287,6 +287,12 @@
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="BOg-bg-w2J" firstAttribute="top" secondItem="JnK-1r-dYo" secondAttribute="bottom" constant="30" id="B6Z-4r-zMY"/>
+                                    <constraint firstItem="shD-m5-iBJ" firstAttribute="top" secondItem="4ik-qn-L9z" secondAttribute="top" constant="20" id="DuK-I9-U7X"/>
+                                    <constraint firstItem="JnK-1r-dYo" firstAttribute="top" secondItem="shD-m5-iBJ" secondAttribute="bottom" constant="30" id="hBr-ln-qhT"/>
+                                    <constraint firstItem="Jxr-NE-rAe" firstAttribute="top" secondItem="BOg-bg-w2J" secondAttribute="bottom" constant="30" id="vsh-SA-KfB"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -303,7 +309,7 @@
                         <outlet property="icon1" destination="yQG-ha-Hvf" id="Agc-OQ-Ryz"/>
                         <outlet property="icon2" destination="u8O-c2-cWe" id="GNV-Ez-E73"/>
                         <outlet property="icon3" destination="kfw-Tt-rr3" id="Fk1-tE-eO9"/>
-                        <outlet property="icon4" destination="d42-sD-fdx" id="o04-zu-Lh2"/>
+                        <outlet property="icon4" destination="0ma-0B-jy3" id="fl0-bA-rRr"/>
                         <outlet property="icon5" destination="68J-Df-3TA" id="uZe-qT-VFp"/>
                         <outlet property="slider1" destination="Bqm-dz-8mw" id="wSw-dO-bqo"/>
                         <outlet property="slider2" destination="DOM-5g-6a4" id="diu-Jf-W1I"/>
@@ -367,21 +373,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L10-gw-CfA">
-                                <rect key="frame" x="127" y="0.0" width="125" height="61"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F5g-dP-6Z4">
-                                        <rect key="frame" x="-98" y="8" width="335" height="579"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <viewLayoutGuide key="contentLayoutGuide" id="saV-ny-ICS"/>
-                                        <viewLayoutGuide key="frameLayoutGuide" id="XkD-vf-bi3"/>
-                                    </scrollView>
-                                </subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L10-gw-CfA">
+                                <rect key="frame" x="16" y="8" width="343" height="602"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="S0c-pt-pr1" firstAttribute="top" secondItem="L10-gw-CfA" secondAttribute="bottom" constant="8" symbolic="YES" id="0PO-Ff-bgu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="L10-gw-CfA" secondAttribute="trailing" id="EwD-w1-bPy"/>
+                            <constraint firstItem="L10-gw-CfA" firstAttribute="leading" secondItem="g3N-gT-Tbt" secondAttribute="leadingMargin" id="dpY-W5-zdZ"/>
+                            <constraint firstItem="L10-gw-CfA" firstAttribute="top" secondItem="gax-8C-XxK" secondAttribute="bottom" constant="8" symbolic="YES" id="hHZ-FV-jZI"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="info.circle" catalog="system" id="NQe-nA-V3e"/>
                     <connections>
@@ -398,10 +401,10 @@
         <image name="co2" width="20" height="20"/>
         <image name="dollar" width="20" height="20"/>
         <image name="flame" width="20" height="20"/>
-        <image name="gasmask" width="20" height="20"/>
         <image name="info.circle" catalog="system" width="64" height="60"/>
         <image name="map" width="20" height="20"/>
         <image name="timer" width="20" height="20"/>
+        <image name="toxic" width="20" height="20"/>
         <image name="user" width="20" height="20"/>
     </resources>
 </document>
