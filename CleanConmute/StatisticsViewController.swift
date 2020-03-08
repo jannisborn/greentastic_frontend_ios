@@ -53,10 +53,10 @@ class StatisticsViewController: UIViewController {
         //start y
         var posY = 170
         // header for table  label:
-        let header = UILabel(frame: CGRect(x:0, y:posY+40, width:Int(screenWidth)-100, height:30))
+        let header = UILabel(frame: CGRect(x:0, y:posY+40, width:Int(screenWidth), height:30))
         header.center = CGPoint(x: Int(screenWidth/2), y: posY+40)
         header.textAlignment = .center
-        header.font = UIFont.boldSystemFont(ofSize: 16.0)
+        header.font = UIFont.boldSystemFont(ofSize: 15.0)
         header.text = "Achieved (% of best/worst case)"
         self.view.addSubview(header)
 

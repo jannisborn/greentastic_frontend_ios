@@ -23,6 +23,9 @@ class UserProfile: UIViewController {
     @IBOutlet weak var slider4 : UISlider!
     @IBOutlet weak var slider5 : UISlider!
     
+    @IBOutlet weak var mattermostlabel: UILabel!
+    @IBOutlet weak var cartypelabel: UILabel!
+    
     @IBOutlet weak var carChoiceSelector : UISegmentedControl!
 
     enum CarChoice : String {
