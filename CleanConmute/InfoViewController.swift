@@ -112,11 +112,35 @@ class InfoViewController: UIViewController {
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.cornerRadius = 25 //This will change with corners of image and height/2 will make this circle shape
         imageView.clipsToBounds = true
-        imageView.frame = CGRect(x:screenWidth/3, y:github_button_height-(screenWidth/3) - 15, width:screenWidth/3, height:screenWidth/3)
+        imageView.frame = CGRect(x:screenWidth*1/6, y:github_button_height-(screenWidth/2), width:screenWidth/3, height:screenWidth/3)
         self.view.addSubview(imageView)
         
+//        Patreon donate button
+        let patreonButton = UIButton(frame: CGRect(x: screenWidth*2/3, y: github_button_height-(screenWidth/2), width: screenWidth/3, height: screenWidth/3))
+        let image = UIImage(named: "patreon")
+        patreonButton.setImage(image, for: .normal)
+        patreonButton.contentVerticalAlignment = .fill
+        patreonButton.contentHorizontalAlignment = .fill
+        
+        buttonX = buttonX + widthforone  // we are going to space these UIButtons 50px apart
+        
+        patreonButton.titleLabel?.text = "Patreon"
+        patreonButton.addTarget(self, action: #selector(goToLinks), for: .touchUpInside)
+        self.view.addSubview(patreonButton)
+        
+        // Patreon text
+        let patreonText = UIButton(frame: CGRect(x: screenWidth*3/4 , y: github_button_height-(screenWidth*0.2), width: 100, height: 30))
+        patreonText.contentVerticalAlignment = .fill
+        patreonText.contentHorizontalAlignment = .fill
+        patreonText.titleLabel?.font = UIFont(name: "Helvetica", size: 22);
+        patreonText.titleLabel?.text = "Patreon"
+        patreonText.addTarget(self, action: #selector(goToLinks), for: .touchUpInside)
+        patreonText.setTitleColor(.black, for: .normal)
+        patreonText.setTitle("Donate!", for: .normal)
+        self.view.addSubview(patreonText)
         
         
+//        Github button
         let github_button = UIButton(frame: CGRect(x: screenWidth*(8/9), y: github_button_height, width: 30, height: 30))
         let github_icon = UIImage(named: "github")
         
@@ -161,12 +185,20 @@ class InfoViewController: UIViewController {
             goDurationLink()
         case "GitHub":
             goGitHubLink()
+        case "Patreon":
+            goPatreonLink()
+        case "Donate!":
+            goPatreonLink()
         default:
             goGitHubLink()
             
         }
     }
-    
+    @objc func goPatreonLink() {
+        if let url = URL(string: "https://www.patreon.com/user?u=31534628&fan_landing=true"){
+            UIApplication.shared.open(url)
+        }
+    }
     @objc func goCaloriesLink() {
         if let url = URL(string: "https://www.foodspring.ch/kalorienverbrauch-tabelle"){
             UIApplication.shared.open(url)
