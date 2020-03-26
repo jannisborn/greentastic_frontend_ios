@@ -152,13 +152,13 @@ class InfoViewController: UIViewController {
         
         // license text
         let license_text = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 221))
-        license_text.center = CGPoint(x: 10+screenWidth/2, y: screenHeight * (8/9)-10)
+        license_text.center = CGPoint(x: 10+screenWidth/2, y: screenHeight * (7/8))
         license_text.textAlignment = .left
         license_text.font = UIFont(name:"HelveticaNeue", size: 13.0)
         let license = "License"
         let attLicense = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize:13.0)]
         let boldStart = NSMutableAttributedString(string:license, attributes:attLicense)
-        let licenseRest = NSMutableAttributedString(string:": Greentastic V1.0. Copyright © 2020 \nJannis Born, Nina Wiedemann. All rights reserved.")
+        let licenseRest = NSMutableAttributedString(string:": Greentastic V1.0. Copyright © 2020 \nJannis Born, Nina Wiedemann, Raul Catena.\nAll rights reserved.")
         let licenseTextParts = NSMutableAttributedString()
         licenseTextParts.append(boldStart)
         licenseTextParts.append(licenseRest)

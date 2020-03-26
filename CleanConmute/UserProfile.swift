@@ -38,7 +38,12 @@ class UserProfile: UIViewController {
     var cost_weight : Double {
         get {
             let defaults = UserDefaults.standard
-            return defaults.double(forKey: "cost_weight")
+//            return defaults.double(forKey: "cost_weight")
+            var value = 0.6
+            if defaults.double(forKey: "cost_weight") != 0 {
+                value = defaults.double(forKey: "cost_weight")
+            }
+            return value
         }
         set {
             let defaults = UserDefaults.standard
@@ -50,7 +55,12 @@ class UserProfile: UIViewController {
     var calories_weight : Double {
         get {
             let defaults = UserDefaults.standard
-            return defaults.double(forKey: "calories_weight")
+            var value = 0.6
+            if defaults.double(forKey: "calories_weight") != 0 {
+                value = defaults.double(forKey: "calories_weight")
+            }
+            return value
+//            return defaults.double(forKey: "calories_weight")
         }
         set {
             let defaults = UserDefaults.standard
@@ -62,7 +72,12 @@ class UserProfile: UIViewController {
     var emission_weight : Double {
         get {
             let defaults = UserDefaults.standard
-            return defaults.double(forKey: "emission_weight")
+//            return defaults.double(forKey: "emission_weight")
+            var value = 0.6
+            if defaults.double(forKey: "emission_weight") != 0 {
+                value = defaults.double(forKey: "emission_weight")
+            }
+            return value
         }
         set {
             let defaults = UserDefaults.standard
@@ -74,7 +89,12 @@ class UserProfile: UIViewController {
     var toxicity_weight : Double {
         get {
             let defaults = UserDefaults.standard
-            return defaults.double(forKey: "toxicity_weight")
+//            return defaults.double(forKey: "toxicity_weight")
+            var value = 0.6
+            if defaults.double(forKey: "toxicity_weight") != 0 {
+                value = defaults.double(forKey: "toxicity_weight")
+            }
+            return value
         }
         set {
             let defaults = UserDefaults.standard
@@ -86,7 +106,12 @@ class UserProfile: UIViewController {
     var time_weight : Double {
         get {
             let defaults = UserDefaults.standard
-            return defaults.double(forKey: "time_weight")
+//            return defaults.double(forKey: "time_weight")
+            var value = 0.6
+            if defaults.double(forKey: "time_weight") != 0 {
+                value = defaults.double(forKey: "time_weight")
+            }
+            return value
         }
         set {
             let defaults = UserDefaults.standard

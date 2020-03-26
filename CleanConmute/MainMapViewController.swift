@@ -114,11 +114,11 @@ class MainMapViewController: UIViewController {
             
             polylines.append((polylin, (0.5, 0.5, 0.5)))
             mapView.addOverlay(polylin)
-            if coordinateArray.count > 0{
-                let circ = MKCircle(center: coordinateArray[coordinateArray.count/2], radius: 20)
-                circles.append((circ, route.color, route.type))
-                mapView.addOverlay(circ)
-            }
+//            if coordinateArray.count > 0{
+//                let circ = MKCircle(center: coordinateArray[coordinateArray.count/2], radius: 20)
+//                circles.append((circ, route.color, route.type))
+//                mapView.addOverlay(circ)
+//            }
         }
 
         let route = routes[index]

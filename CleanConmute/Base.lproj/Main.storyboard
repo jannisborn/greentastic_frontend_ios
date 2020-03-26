@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main Map View Controller-->
+        <!--Map-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
                 <viewController id="9pv-A4-QxB" customClass="MainMapViewController" customModule="Greentastic" customModuleProvider="target" sceneMemberID="viewController">
@@ -54,7 +54,7 @@
                             <constraint firstItem="u5m-uT-t34" firstAttribute="top" secondItem="eGA-k9-8WO" secondAttribute="bottom" id="b7b-Ge-Igy"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" image="map" selectedImage="map" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="map" selectedImage="map" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="mapType" destination="aoT-ie-53W" id="Mn5-f8-Ypa"/>
                         <outlet property="mapView" destination="ZXS-Is-cu1" id="HTt-Fs-nxS"/>
@@ -303,7 +303,7 @@
                             <constraint firstItem="4ik-qn-L9z" firstAttribute="top" secondItem="Nc1-nY-tWN" secondAttribute="bottom" constant="16" id="vk7-La-itk"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="user" selectedImage="user" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="User Profile" image="user" selectedImage="user" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="carChoiceSelector" destination="Jxr-NE-rAe" id="rsD-RY-4Yr"/>
                         <outlet property="cartypelabel" destination="BOg-bg-w2J" id="7zW-TC-Dqb"/>
@@ -324,7 +324,7 @@
             </objects>
             <point key="canvasLocation" x="952.79999999999995" y="722.78860569715152"/>
         </scene>
-        <!--Statistics View Controller-->
+        <!--Statistics-->
         <scene sceneID="GrN-br-KTW">
             <objects>
                 <viewController id="2NU-sb-9kl" customClass="StatisticsViewController" customModule="Greentastic" customModuleProvider="target" sceneMemberID="viewController">
@@ -337,7 +337,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="chart" selectedImage="chart" id="Go1-4T-RUS"/>
+                    <tabBarItem key="tabBarItem" title="Statistics" image="chart" selectedImage="chart" id="Go1-4T-RUS"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KVp-Jv-WLk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -347,10 +347,11 @@
         <scene sceneID="yl2-sM-qoP">
             <objects>
                 <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
+                    <tabBar key="tabBar" contentMode="center" itemPositioning="centered" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
@@ -363,7 +364,7 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
-        <!--Info View Controller-->
+        <!--About-->
         <scene sceneID="bL1-Lu-1RL">
             <objects>
                 <viewController id="gDd-cX-c1p" customClass="InfoViewController" customModule="Greentastic" customModuleProvider="target" sceneMemberID="viewController">
@@ -388,7 +389,9 @@
                             <constraint firstItem="L10-gw-CfA" firstAttribute="top" secondItem="gax-8C-XxK" secondAttribute="bottom" constant="8" symbolic="YES" id="hHZ-FV-jZI"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="info" catalog="system" selectedImage="info" id="NQe-nA-V3e"/>
+                    <tabBarItem key="tabBarItem" title="About" image="info" catalog="system" selectedImage="info" springLoaded="YES" id="NQe-nA-V3e">
+                        <inset key="imageInsets" minX="0.0" minY="3000" maxX="0.0" maxY="-3000"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="scrollInfo" destination="g3N-gT-Tbt" id="rj7-Vg-Jpq"/>
                     </connections>
