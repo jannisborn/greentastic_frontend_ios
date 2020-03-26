@@ -158,7 +158,7 @@ class InfoViewController: UIViewController {
         let license = "License"
         let attLicense = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize:13.0)]
         let boldStart = NSMutableAttributedString(string:license, attributes:attLicense)
-        let licenseRest = NSMutableAttributedString(string:": Greentastic V1.0. Copyright © 2020 \nJannis Born, Nina Wiedemann, Raul Catena.\nAll rights reserved.")
+        let licenseRest = NSMutableAttributedString(string:": Greentastic V1.1. Copyright © 2020 \nJannis Born, Nina Wiedemann, Raul Catena.\nAll rights reserved.")
         let licenseTextParts = NSMutableAttributedString()
         licenseTextParts.append(boldStart)
         licenseTextParts.append(licenseRest)
