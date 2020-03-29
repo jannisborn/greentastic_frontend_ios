@@ -389,9 +389,7 @@
                             <constraint firstItem="L10-gw-CfA" firstAttribute="top" secondItem="gax-8C-XxK" secondAttribute="bottom" constant="8" symbolic="YES" id="hHZ-FV-jZI"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="About" image="info" catalog="system" selectedImage="info" springLoaded="YES" id="NQe-nA-V3e">
-                        <inset key="imageInsets" minX="0.0" minY="3000" maxX="0.0" maxY="-3000"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="About" image="black_info_icon" selectedImage="black_info_icon" springLoaded="YES" id="NQe-nA-V3e"/>
                     <connections>
                         <outlet property="scrollInfo" destination="g3N-gT-Tbt" id="rj7-Vg-Jpq"/>
                     </connections>
@@ -402,11 +400,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="black_info_icon" width="24" height="24"/>
         <image name="chart" width="20" height="20"/>
         <image name="co2" width="20" height="20"/>
         <image name="dollar" width="20" height="20"/>
         <image name="flame" width="20" height="20"/>
-        <image name="info" catalog="system" width="46" height="64"/>
         <image name="map" width="20" height="20"/>
         <image name="timer" width="20" height="20"/>
         <image name="toxic" width="20" height="20"/>
