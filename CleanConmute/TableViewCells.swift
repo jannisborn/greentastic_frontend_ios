@@ -67,7 +67,7 @@ class RouteTableViewCell: UITableViewCell {
                 
                 costLabel.text = "\(route_.price)$"
                 carbonFPLabel.text = "\(route_.carbonFootPrint)kg"
-                caloriesLabel.text = "\(UInt(route_.caloriesBurnt))kCal"
+                caloriesLabel.text = "\(UInt(route_.caloriesBurnt))kcal"
                 toxicLabel.text = "\(route_.toxicityFootPrint)g"
                 timeLabel.text = route_.timeRequired()
                 
