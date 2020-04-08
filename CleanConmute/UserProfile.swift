@@ -122,7 +122,7 @@ class UserProfile: UIViewController {
     
     var car : CarChoice {
         get {
-            return CarChoice(rawValue: carChoiceSelector.titleForSegment(at: carChoiceSelector.selectedSegmentIndex) ?? "No") ?? .No
+            return CarChoice(rawValue: carChoiceSelector.titleForSegment(at: carChoiceSelector.selectedSegmentIndex) ?? "Petrol") ?? .No
         }
         set{
             var index = 0
@@ -191,6 +191,8 @@ class UserProfile: UIViewController {
             }
         }
         
+        carChoiceSelector.selectedSegmentIndex = 1
+        
         getUserPreferences()
         updateSliders()
     }
@@ -214,7 +216,7 @@ class UserProfile: UIViewController {
     }
     
     @IBAction func car_type_changed(_ sender: UISegmentedControl) {
-        car = CarChoice(rawValue: sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "No") ?? .No
+        car = CarChoice(rawValue: sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "Petrol") ?? .No
     }
     
     @IBAction func car_type(_ sender: UISegmentedControl) {

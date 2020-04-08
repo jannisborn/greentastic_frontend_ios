@@ -293,7 +293,7 @@ class MainMapViewController: UIViewController {
         let time = defaults.double(forKey: "time_weight")
         
         let car_type_index = defaults.integer(forKey: "car_choice")
-        let car_choices = ["Petrol", "Petrol","Diesel", "Electric"]
+        let car_choices = ["None", "Petrol","Diesel", "Electric"]
         let car_type = car_choices[car_type_index]
         
         startSpinner( inScopeTextField )
