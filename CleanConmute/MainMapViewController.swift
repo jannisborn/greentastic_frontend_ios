@@ -22,6 +22,7 @@ class MainMapViewController: UIViewController {
 //        }
 //    }
     var currMap = 1
+    var selectedRouteIndex = -1
     
     
     @IBOutlet weak var mapView : MKMapView!
@@ -37,6 +38,7 @@ class MainMapViewController: UIViewController {
             routesResult.tag = 0
             toogleTableResults(routesResult)
             satelliteButton.removeFromSuperview()
+            googleMapsButton.removeFromSuperview()
         default:
             if routes.isEmpty{
                 locationResult.tag = 1
@@ -49,6 +51,7 @@ class MainMapViewController: UIViewController {
                 toogleTableResults(routesResult)
             }
             view.addSubview(satelliteButton)
+            view.addSubview(googleMapsButton)
         }
     }
     
@@ -77,7 +80,8 @@ class MainMapViewController: UIViewController {
         }
     }
     
-    let satelliteButton = UIButton(frame: CGRect(x: 10, y: 510, width: 50, height: 50))
+    let satelliteButton = UIButton(frame: CGRect(x: 15, y: 500, width: 50, height: 50))
+    let googleMapsButton = UIButton(frame: CGRect(x: 12.5, y: 450, width: 45, height: 45))
     
     var routes = [Route]()
     var locations = [String]()
@@ -98,6 +102,7 @@ class MainMapViewController: UIViewController {
     }
     
     func paintRoutes(index: Int){
+        selectedRouteIndex = index
         for (line, _) in polylines{
             mapView.removeOverlay(line)
         }
@@ -156,7 +161,8 @@ class MainMapViewController: UIViewController {
         spinner.tintColor = .blue
         // Do any additional setup after loading the view, typically from a nib.
         
-        let image = UIImage(named: "map_symbol_without_border")
+        let toggle_map_image = UIImage(named: "map_symbol_without_border")
+        let googlemaps = UIImage(named:"google-maps")
         
         let heightTabBar = self.tabBarController!.tabBar.frame.height
         let heightMapTypeBar = self.mapType.frame.height
@@ -171,13 +177,18 @@ class MainMapViewController: UIViewController {
         // take height, subtract the weird iphone 11 bottom space, the tab bar, the segmentedControl, the height of the button and 30 extra for the apple maps icon
         let posButton = screenHeight - bottomSafeAreaHeight - heightTabBar - heightMapTypeBar - 80
         satelliteButton.frame = CGRect(x: 10, y: posButton, width: 50, height: 50)
-        satelliteButton.setImage(image, for: .normal)
+        satelliteButton.setImage(toggle_map_image, for: .normal)
         satelliteButton.imageView?.contentMode = .scaleAspectFit
-        
         satelliteButton.addTarget(self, action: #selector(changeMapType), for: .touchUpInside)
         
-
+//         Repeat for google maps button
+        googleMapsButton.frame = CGRect(x: 15, y: posButton - 50, width: 40, height: 40)
+        googleMapsButton.setImage(googlemaps, for: .normal)
+        googleMapsButton.imageView?.contentMode = .scaleAspectFit
+        googleMapsButton.addTarget(self, action: #selector(googleMapsCall), for: .touchUpInside)
         self.view.addSubview(satelliteButton)
+        self.view.addSubview(googleMapsButton)
+        
     }
     
     @objc func changeMapType(sender: UIButton!) {
@@ -192,6 +203,28 @@ class MainMapViewController: UIViewController {
                  mapView.mapType = .standard
                  currMap = 1
          }
+    }
+    
+    @objc func googleMapsCall(sender: UIButton!){
+        // Call function of the Google Maps button
+        
+//      If button is pressed without a route being selected, nothing will happen
+        if (selectedRouteIndex == -1){
+            return;
+        }
+//      Fetch the route that is currently selected
+        let route = self.routes[selectedRouteIndex]
+//      Convert route type (e.g. escooter) to key that is used in Google Maps URL
+        let GMTransportKey: String = String(TransportTypeDict[route.type.rawValue]!["GM_Key"]!)
+        let route_start = route.route[0]
+        let route_end = route.route[route.route.count-1]  // Fetch last element
+
+//       Open Google Maps
+        if (UIApplication.shared.canOpenURL(NSURL(string:"https://maps.google.com")! as URL)){
+            UIApplication.shared.openURL(NSURL(string:"https://www.google.com/maps/preview?saddr=\(route_start.latitude),\(route_start.longitude)&daddr=\(route_end.latitude),\(route_end.longitude)&dirflg=\(GMTransportKey)")! as URL)
+        } else {
+            NSLog("Can't use comgooglemaps://");
+        }
     }
     
     func resetTableFrame(_ tableView : UITableView){
@@ -253,6 +286,7 @@ class MainMapViewController: UIViewController {
                     loc.tag = 0
                     self?.toogleTableResults(loc)
                     self?.satelliteButton.removeFromSuperview()
+                    self?.googleMapsButton.removeFromSuperview()
                     self?.stopSpinner()
                 }
             }
@@ -293,7 +327,7 @@ class MainMapViewController: UIViewController {
         let time = defaults.double(forKey: "time_weight")
         
         let car_type_index = defaults.integer(forKey: "car_choice")
-        let car_choices = ["None", "Petrol","Diesel", "Electric"]
+        let car_choices = ["Petrol", "Petrol","Diesel", "Electric"]
         let car_type = car_choices[car_type_index]
         
         startSpinner( inScopeTextField )
@@ -324,7 +358,8 @@ class MainMapViewController: UIViewController {
                     if let rout = self?.routesResult{
                         DispatchQueue.main.async {
                             self?.toogleTableResults(rout)
-                        self?.satelliteButton.removeFromSuperview()
+                            self?.satelliteButton.removeFromSuperview()
+                            self?.googleMapsButton.removeFromSuperview()
                             self?.mapType.selectedSegmentIndex = 1;
                             self?.stopSpinner()
                         }
@@ -415,6 +450,7 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
             self.mapType.selectedSegmentIndex = 0; //switch tab bar
             paintRoutes(index: indexPath.row)
             
+            
             // update statistics values
             let defaults = UserDefaults.standard
             let selectedRoute = routes[indexPath.row]
@@ -434,6 +470,7 @@ extension MainMapViewController : UITableViewDelegate, UITableViewDataSource{
         tableView.deselectRow(at: indexPath, animated: true)
         toogleTableResults(tableView)
         self.view.addSubview(satelliteButton)
+        self.view.addSubview(googleMapsButton)
     }
     
     func helper_compute_max() -> Array<Double> {
