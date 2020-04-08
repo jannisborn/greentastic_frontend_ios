@@ -22,7 +22,7 @@ class MainMapViewController: UIViewController {
 //        }
 //    }
     var currMap = 1
-    
+    var transbuttonlist: [UIButton] = []
     
     @IBOutlet weak var mapView : MKMapView!
     @IBOutlet weak var mapType : UISegmentedControl!
@@ -78,6 +78,7 @@ class MainMapViewController: UIViewController {
     }
     
     let satelliteButton = UIButton(frame: CGRect(x: 10, y: 510, width: 50, height: 50))
+    let routeButton = UIButton(frame: CGRect(x: -60, y: 510, width: 50, height: 50))
     
     var routes = [Route]()
     var locations = [String]()
@@ -176,7 +177,18 @@ class MainMapViewController: UIViewController {
         
         satelliteButton.addTarget(self, action: #selector(changeMapType), for: .touchUpInside)
         
-
+        let screenWidth = UIScreen.main.fixedCoordinateSpace.bounds.width
+        routeButton.frame = CGRect(x: screenWidth-60, y: posButton, width: 50, height: 50)
+        routeButton.backgroundColor = .white
+        routeButton.layer.cornerRadius = 0.5 * routeButton.bounds.size.width
+        routeButton.clipsToBounds = true
+        if #available(iOS 13.0, *) {
+            let imagepath = UIImage(systemName: "arrow.2.squarepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .large))?.withTintColor(.black)
+            routeButton.setImage(imagepath, for: .normal)
+        }
+        routeButton.addTarget(self, action: #selector(selectRoute), for: .touchUpInside)
+        routeButton.imageView?.contentMode = .scaleAspectFit
+        self.view.addSubview(routeButton)
         self.view.addSubview(satelliteButton)
     }
     
@@ -192,6 +204,41 @@ class MainMapViewController: UIViewController {
                  mapView.mapType = .standard
                  currMap = 1
          }
+    }
+    
+    @objc func selectRoute(sender: UIButton!){
+        print("pressed routes button")
+        // let testDict = ["bicycling":"bicycle", "driving":"car"]
+        // let transport = ["bus", "bicycle","ebike","stepper"] // "car",
+        let frame_orig_button = sender.frame
+        let xstart = frame_orig_button.minX + 7
+        var currY = frame_orig_button.minY - 40
+
+        for (n, route) in routes.enumerated() { //route in routes {
+            let routeType = route.type.rawValue
+            let routeImage = TransportTypeDict[routeType]!["ImageName"]!
+            let transButton = UIButton(frame: CGRect(x: xstart, y: currY, width:36, height:36))
+            transButton.setImage(UIImage(named: routeImage), for: .normal)
+            transButton.backgroundColor = .white
+            transButton.layer.cornerRadius = 0.5 * transButton.bounds.size.width
+            transButton.clipsToBounds = true
+            currY = currY - 36
+            transButton.tag = n
+            transButton.titleLabel?.text = "\(String(describing: routeImage))"
+            transButton.addTarget(self, action: #selector(switchRoute), for: .touchUpInside)
+            transbuttonlist.append(transButton)
+            self.view.addSubview(transButton)  // myView in this case is the view you want these buttons added
+        }
+    }
+    
+    @objc func switchRoute(sender:UIButton!){
+        paintRoutes(index: sender.tag)
+        routeButton.setImage(UIImage(named: sender.titleLabel!.text!), for: .normal)
+        routeButton.imageView?.contentMode = .scaleAspectFit
+        routeButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        for button in transbuttonlist {
+            button.removeFromSuperview()
+        }
     }
     
     func resetTableFrame(_ tableView : UITableView){
