@@ -30,12 +30,22 @@ struct GPSLocation {
     let altitude : Double
 }
 
+let TransportTypeDict = [
+    "walking": ["GM_Key": "w", "ImageName": "walking"],
+    "bicycling": ["GM_Key": "b", "ImageName": "bicycle"],
+    "ebike": ["GM_Key": "b", "ImageName": "ebike"],
+    "escooter": ["GM_Key": "b", "ImageName": "stepper"],
+    "driving": ["GM_Key": "d", "ImageName": "car"],
+    "taxi": ["GM_Key": "d", "ImageName": "taxi"],
+    "transit": ["GM_Key": "r", "ImageName": "tram"]
+]
+
 struct Route {
     // Start Begin
-    let fromAsText : String
-    let toAsText : String
-    let fromGpsLocation : GPSLocation
-    let toGpsLocation : GPSLocation
+//    let fromAsText : String
+//    let toAsText : String
+//    let fromGpsLocation : GPSLocation
+//    let toGpsLocation : GPSLocation
 
     // Type
     let type : RouteType
@@ -84,14 +94,10 @@ struct Route {
         
         if let dict = json as? Dictionary<String, Any>{
             
-//            print(type_string)
-//            print("-----")
-//            print(dict)
-            
-            fromAsText = "Zurich, HB"
-            toAsText = "IBM ZRL"
-            fromGpsLocation = GPSLocation(longitude: 20.0, latitude: 20.0, altitude: 0.0)
-            toGpsLocation = GPSLocation(longitude: 20.1, latitude: 20.1, altitude: 0.0)
+//            fromAsText = "Zurich, HB"
+//            toAsText = "IBM ZRL"
+//            fromGpsLocation = GPSLocation(longitude: 20.0, latitude: 20.0, altitude: 0.0)
+//            toGpsLocation = GPSLocation(longitude: 20.1, latitude: 20.1, altitude: 0.0)
             
             // Type
             type = RouteType(rawValue: type_string) ?? .walking
