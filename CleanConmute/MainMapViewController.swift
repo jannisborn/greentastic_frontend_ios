@@ -37,9 +37,7 @@ class MainMapViewController: UIViewController {
             toogleTableResults(locationResult)
             routesResult.tag = 0
             toogleTableResults(routesResult)
-            satelliteButton.removeFromSuperview()
-            googleMapsButton.removeFromSuperview()
-            routeButton.removeFromSuperview()
+            removeAllButtons()
         default:
             if routes.isEmpty{
                 locationResult.tag = 1
@@ -136,6 +134,15 @@ class MainMapViewController: UIViewController {
         mapView.addOverlay(polylin)
         
         mapView.setVisibleMapRect(polylin.boundingMapRect, animated: true)
+    }
+    
+    func removeAllButtons(){
+        satelliteButton.removeFromSuperview()
+        googleMapsButton.removeFromSuperview()
+        routeButton.removeFromSuperview()
+        for button in transbuttonlist {
+            button.removeFromSuperview()
+        }
     }
     
     func setDelegates(){
@@ -244,17 +251,17 @@ class MainMapViewController: UIViewController {
         }
     
     @objc func selectRoute(sender: UIButton!){
-        print("pressed routes button")
-        // let testDict = ["bicycling":"bicycle", "driving":"car"]
-        // let transport = ["bus", "bicycle","ebike","stepper"] // "car",
         let frame_orig_button = sender.frame
         let xstart = frame_orig_button.minX + 7
         var currY = frame_orig_button.minY - 40
 
-        for (n, route) in routes.enumerated() { //route in routes {
+        // iterate over available routes and add buttons
+        for (n, route) in routes.enumerated() {
             let routeType = route.type.rawValue
+            // get corresponding image name
             let routeImage = TransportTypeDict[routeType]!["ImageName"]!
             let transButton = UIButton(frame: CGRect(x: xstart, y: currY, width:36, height:36))
+            // chage image
             transButton.setImage(UIImage(named: routeImage), for: .normal)
             transButton.backgroundColor = .white
             transButton.layer.cornerRadius = 0.5 * transButton.bounds.size.width
@@ -268,14 +275,31 @@ class MainMapViewController: UIViewController {
         }
     }
     
+    func colorFromComponentsTuple(_ tuple : (Double, Double, Double)) -> UIColor{
+        return UIColor(red: CGFloat(tuple.0), green: CGFloat(tuple.1), blue: CGFloat(tuple.2), alpha: CGFloat(1.0))
+    }
+    
     @objc func switchRoute(sender:UIButton!){
         paintRoutes(index: sender.tag)
-        routeButton.setImage(UIImage(named: sender.titleLabel!.text!), for: .normal)
-        routeButton.imageView?.contentMode = .scaleAspectFit
-        routeButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        // change image for route change button
+        if #available(iOS 13.0, *) {
+            // if ios 13, also change the color
+            let col = routes[sender.tag].color
+            let newButtonImage = UIImage(named: sender.titleLabel!.text!)?.withTintColor(colorFromComponentsTuple(col))
+            routeButton.setImage(newButtonImage, for: .normal)
+        } else {
+            // simply color black
+            routeButton.setImage(UIImage(named: sender.titleLabel!.text!), for: .normal)
+        }
+        //
+        routeButton.contentVerticalAlignment = .fill
+        routeButton.contentHorizontalAlignment = .fill
+        // remove all route buttons
         for button in transbuttonlist {
             button.removeFromSuperview()
         }
+        // reset list of buttons
+        transbuttonlist = []
     }
     
     func resetTableFrame(_ tableView : UITableView){
@@ -336,9 +360,7 @@ class MainMapViewController: UIViewController {
                     self?.toogleTableResults(self!.routesResult)
                     loc.tag = 0
                     self?.toogleTableResults(loc)
-                    self?.satelliteButton.removeFromSuperview()
-                    self?.googleMapsButton.removeFromSuperview()
-                    self?.routeButton.removeFromSuperview()
+                    self?.removeAllButtons()
                     self?.stopSpinner()
                 }
             }
@@ -410,9 +432,7 @@ class MainMapViewController: UIViewController {
                     if let rout = self?.routesResult{
                         DispatchQueue.main.async {
                             self?.toogleTableResults(rout)
-                            self?.satelliteButton.removeFromSuperview()
-                            self?.googleMapsButton.removeFromSuperview()
-                            self?.routeButton.removeFromSuperview()
+                            self?.removeAllButtons()
                             self?.mapType.selectedSegmentIndex = 1;
                             self?.stopSpinner()
                         }
