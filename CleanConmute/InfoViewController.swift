@@ -116,29 +116,29 @@ class InfoViewController: UIViewController {
         self.view.addSubview(imageView)
         
 //        Patreon donate button
-        let patreonButton = UIButton(frame: CGRect(x: screenWidth*2/3, y: github_button_height-(screenWidth/2), width: screenWidth/3, height: screenWidth/3))
-        let image = UIImage(named: "patreon")
-        patreonButton.setImage(image, for: .normal)
-        patreonButton.contentVerticalAlignment = .fill
-        patreonButton.contentHorizontalAlignment = .fill
-        
-        buttonX = buttonX + widthforone  // we are going to space these UIButtons 50px apart
-        
-        patreonButton.titleLabel?.text = "Patreon"
-        patreonButton.addTarget(self, action: #selector(goToLinks), for: .touchUpInside)
-        self.view.addSubview(patreonButton)
-        
-        // Patreon text
-        let patreonText = UIButton(frame: CGRect(x: screenWidth*3/4 , y: github_button_height-(screenWidth*0.2), width: 100, height: 30))
-        patreonText.contentVerticalAlignment = .fill
-        patreonText.contentHorizontalAlignment = .fill
-        patreonText.titleLabel?.font = UIFont(name: "Helvetica", size: 22);
-        patreonText.titleLabel?.text = "Patreon"
-        patreonText.addTarget(self, action: #selector(goToLinks), for: .touchUpInside)
-        patreonText.setTitleColor(.black, for: .normal)
-        patreonText.setTitle("Donate!", for: .normal)
-        self.view.addSubview(patreonText)
-        
+//        let patreonButton = UIButton(frame: CGRect(x: screenWidth*2/3, y: github_button_height-(screenWidth/2), width: screenWidth/3, height: screenWidth/3))
+//        let image = UIImage(named: "patreon")
+//        patreonButton.setImage(image, for: .normal)
+//        patreonButton.contentVerticalAlignment = .fill
+//        patreonButton.contentHorizontalAlignment = .fill
+//        
+//        buttonX = buttonX + widthforone  // we are going to space these UIButtons 50px apart
+//        
+//        patreonButton.titleLabel?.text = "Patreon"
+//        patreonButton.addTarget(self, action: #selector(goToLinks), for: .touchUpInside)
+//        self.view.addSubview(patreonButton)
+//        
+//        // Patreon text
+//        let patreonText = UIButton(frame: CGRect(x: screenWidth*3/4 , y: github_button_height-(screenWidth*0.2), width: 100, height: 30))
+//        patreonText.contentVerticalAlignment = .fill
+//        patreonText.contentHorizontalAlignment = .fill
+//        patreonText.titleLabel?.font = UIFont(name: "Helvetica", size: 22);
+//        patreonText.titleLabel?.text = "Patreon"
+//        patreonText.addTarget(self, action: #selector(goToLinks), for: .touchUpInside)
+//        patreonText.setTitleColor(.black, for: .normal)
+//        patreonText.setTitle("Donate!", for: .normal)
+//        self.view.addSubview(patreonText)
+//        
         
 //        Github button
         let github_button = UIButton(frame: CGRect(x: screenWidth*(8/9), y: github_button_height, width: 30, height: 30))
