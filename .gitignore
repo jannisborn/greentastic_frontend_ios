@@ -5,4 +5,5 @@ xcuserdata/
 __pycache__
 *.keypair
 *keypair*
+*token*
 CleanConmute.xcodeproj/xcshareddata/
